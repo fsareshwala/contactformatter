@@ -1,5 +1,3 @@
-# contact-formatter
-
 # Phone Number Formatter (iOS)
 
 [![Swift](https://img.shields.io/badge/Swift-5.x-orange.svg)](https://swift.org)
