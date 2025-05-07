@@ -15,3 +15,7 @@ The app currently supports the following phone number formats:
 * **E.164:** `+15555648583` (International standard format)
 * **International:** `+1 555-564-8583` (International format with spaces and hyphens for readability)
 * **National:** `(555) 564-8583` (National format with parentheses and a hyphen)
+
+## Screenshot
+
+![Simulator Screenshot - iPhone 16 Pro - 2025-05-07 at 11 57 22](https://github.com/user-attachments/assets/c644a05a-effe-4684-b00f-15e0034fd209)
