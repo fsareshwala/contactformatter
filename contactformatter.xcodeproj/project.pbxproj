@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		BB2E60182DBCA6C50054CB6F /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = BB2E60172DBCA6C50054CB6F /* PhoneNumberKit-Static */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		BBE983532DB7FA44004685CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -56,7 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB2E60182DBCA6C50054CB6F /* PhoneNumberKit-Static in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +112,6 @@
 			);
 			name = contactformatter;
 			packageProductDependencies = (
-				BB2E60172DBCA6C50054CB6F /* PhoneNumberKit-Static */,
 			);
 			productName = contactformatter;
 			productReference = BBE983422DB7FA43004685CF /* contactformatter.app */;
@@ -202,7 +196,6 @@
 			mainGroup = BBE983392DB7FA43004685CF;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				BB2E60162DBCA6C50054CB6F /* XCLocalSwiftPackageReference "thirdparty/PhoneNumberKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BBE983432DB7FA43004685CF /* Products */;
@@ -579,20 +572,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		BB2E60162DBCA6C50054CB6F /* XCLocalSwiftPackageReference "thirdparty/PhoneNumberKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = thirdparty/PhoneNumberKit;
-		};
-/* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		BB2E60172DBCA6C50054CB6F /* PhoneNumberKit-Static */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = "PhoneNumberKit-Static";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BBE9833A2DB7FA43004685CF /* Project object */;
 }
