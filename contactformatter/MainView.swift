@@ -262,19 +262,28 @@ struct WelcomeView: View {
 
   var body: some View {
     VStack {
+      Spacer()
       Text("Clean Dial")
         .font(.title)
         .bold()
 
       Text(message)
-        .font(.footnote)
+        .font(.callout)
         .padding()
 
+      Spacer()
       Button(action: {
         action()
       }) {
         Text("Grant Access")
+          .font(.headline)
+          .foregroundColor(.white)
+          .frame(minWidth: 200)
+          .padding()
+          .background(Color.accentColor)
+          .cornerRadius(10)
       }
+      .padding(.bottom, 50)
     }
     .multilineTextAlignment(.center)
     .frame(maxWidth: .infinity, alignment: .center)
@@ -290,10 +299,18 @@ struct RestrictedView: View {
     """
 
   var body: some View {
-    Text(message)
-      .padding()
-      .multilineTextAlignment(.center)
-      .frame(maxWidth: .infinity, alignment: .center)
+    VStack {
+      Text("Clean Dial")
+        .font(.title)
+        .bold()
+
+      Text(message)
+        .padding()
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity, alignment: .center)
+    }
+    .multilineTextAlignment(.center)
+    .frame(maxWidth: .infinity, alignment: .center)
   }
 }
 
@@ -304,10 +321,34 @@ struct DeniedView: View {
     """
 
   var body: some View {
-    Text(message)
-      .padding()
-      .multilineTextAlignment(.center)
-      .frame(maxWidth: .infinity, alignment: .center)
+    VStack {
+      Spacer()
+      Text("Clean Dial")
+        .font(.title)
+        .bold()
+
+      Text(message)
+        .font(.callout)
+        .padding()
+
+      Spacer()
+      Button(action: {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+          UIApplication.shared.open(url)
+        }
+      }) {
+        Text("Open Settings")
+          .font(.headline)
+          .foregroundColor(.white)
+          .frame(minWidth: 200)
+          .padding()
+          .background(Color.accentColor)
+          .cornerRadius(10)
+      }
+      .padding(.bottom, 50)
+    }
+    .multilineTextAlignment(.center)
+    .frame(maxWidth: .infinity, alignment: .center)
   }
 }
 
@@ -322,7 +363,7 @@ struct MainView: View {
       ContactListView()
     case .notDetermined:
       WelcomeView(action: {
-        authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+        requestContactsAuthorization()
       })
     case .restricted:
       RestrictedView()
@@ -330,6 +371,14 @@ struct MainView: View {
       DeniedView()
     @unknown default:
       DeniedView()
+    }
+  }
+
+  func requestContactsAuthorization() {
+    let store = CNContactStore()
+
+    store.requestAccess(for: .contacts) { granted, error in
+      authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
     }
   }
 }
