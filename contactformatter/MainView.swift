@@ -81,6 +81,54 @@ struct ContactView: View {
   }
 }
 
+struct ContactListView: View {
+  @Binding var contacts: [Contact]
+  @Binding var selectedFormatType: PhoneNumberFormat
+
+  let phoneNumberUtility = PhoneNumberUtility()
+
+  var body: some View {
+    Section(header: Text("Format Type").textCase(.none)) {
+      FormatTypeList(selectedFormatType: $selectedFormatType)
+    }
+
+    Section(header: Text("Contacts").textCase(.none)) {
+      if anyContactNeedsFormatting() {
+        ForEach($contacts, id: \.phoneNumber) { contact in
+          let formatted = phoneNumberUtility.format(
+            contact.parsedPhoneNumber.wrappedValue,
+            toType: selectedFormatType
+          )
+
+          if contact.phoneNumber.wrappedValue.value.stringValue != formatted {
+            ContactView(
+              isChecked: contact.isChecked,
+              name: contact.wrappedValue.name,
+              phoneNumber: formatted
+            )
+          }
+        }
+      } else {
+        Text("All contact phone numbers are formatted correctly")
+          .padding()
+          .multilineTextAlignment(.center)
+          .frame(maxWidth: .infinity, alignment: .center)
+      }
+    }
+  }
+
+  func anyContactNeedsFormatting() -> Bool {
+    for c in contacts {
+      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
+      if c.phoneNumber.value.stringValue != formatted {
+        return true
+      }
+    }
+
+    return false
+  }
+}
+
 struct MainView: View {
   @State private var contacts: [Contact] = []
   @State private var contactsAccess: Bool = false
@@ -92,33 +140,7 @@ struct MainView: View {
     NavigationView {
       List {
         if contactsAccess {
-          Section(header: Text("Format Type").textCase(.none)) {
-            FormatTypeList(selectedFormatType: $selectedFormatType)
-          }
-
-          Section(header: Text("Contacts").textCase(.none)) {
-            if anyContactNeedsFormatting() {
-              ForEach($contacts, id: \.phoneNumber) { contact in
-                let formatted = phoneNumberUtility.format(
-                  contact.parsedPhoneNumber.wrappedValue,
-                  toType: selectedFormatType
-                )
-
-                if contact.phoneNumber.wrappedValue.value.stringValue != formatted {
-                  ContactView(
-                    isChecked: contact.isChecked,
-                    name: contact.wrappedValue.name,
-                    phoneNumber: formatted
-                  )
-                }
-              }
-            } else {
-              Text("All contact phone numbers are formatted correctly")
-                .padding()
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .center)
-            }
-          }
+          ContactListView(contacts: $contacts, selectedFormatType: $selectedFormatType)
         } else {
           Text(
             "This device does not have access to your contacts. Please update your settings to allow access."
@@ -140,17 +162,6 @@ struct MainView: View {
         }
       }
     }
-  }
-
-  func anyContactNeedsFormatting() -> Bool {
-    for c in contacts {
-      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
-      if c.phoneNumber.value.stringValue != formatted {
-        return true
-      }
-    }
-
-    return false
   }
 
   func saveContacts() {
