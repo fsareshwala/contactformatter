@@ -129,9 +129,52 @@ struct ContactListView: View {
   }
 }
 
+struct WelcomeView: View {
+  var message = """
+    Welcome to Clean Dial!
+
+    This device does not have access to your contacts. Please update your settings to allow access.
+    """
+
+  var body: some View {
+    Text(message)
+      .padding()
+      .multilineTextAlignment(.center)
+      .frame(maxWidth: .infinity, alignment: .center)
+  }
+}
+
+struct RestrictedView: View {
+  var message = """
+    This application is not authorized to access contact data.
+
+    You cannot change this application’s status, possibly due to active restrictions such as \
+    parental controls being in place.
+    """
+
+  var body: some View {
+    Text(message)
+      .padding()
+      .multilineTextAlignment(.center)
+      .frame(maxWidth: .infinity, alignment: .center)
+  }
+}
+
+struct DeniedView: View {
+  var message = """
+    This device does not have access to your contacts. Please update your settings to allow access.
+    """
+
+  var body: some View {
+    Text(message)
+      .padding()
+      .multilineTextAlignment(.center)
+      .frame(maxWidth: .infinity, alignment: .center)
+  }
+}
+
 struct MainView: View {
   @State private var contacts: [Contact] = []
-  @State private var contactsAccess: Bool = false
   @State private var selectedFormatType: PhoneNumberFormat = .international
 
   let phoneNumberUtility = PhoneNumberUtility()
@@ -139,15 +182,18 @@ struct MainView: View {
   var body: some View {
     NavigationView {
       List {
-        if contactsAccess {
+        let status = CNContactStore.authorizationStatus(for: .contacts)
+        switch status {
+        case .authorized, .limited:
           ContactListView(contacts: $contacts, selectedFormatType: $selectedFormatType)
-        } else {
-          Text(
-            "This device does not have access to your contacts. Please update your settings to allow access."
-          )
-          .padding()
-          .multilineTextAlignment(.center)
-          .frame(maxWidth: .infinity, alignment: .center)
+        case .notDetermined:
+          WelcomeView()
+        case .restricted:
+          RestrictedView()
+        case .denied:
+          fallthrough
+        @unknown default:
+          DeniedView()
         }
       }
       .navigationTitle("Contact Formatter")
@@ -202,24 +248,13 @@ struct MainView: View {
   func getContacts() {
     let status = CNContactStore.authorizationStatus(for: .contacts)
     switch status {
-    case .authorized:
-      contactsAccess = true
-      makeContactsFetchRequest()
-    case .limited:
-      contactsAccess = true
+    case .authorized, .limited:
       makeContactsFetchRequest()
     case .notDetermined:
-      contactsAccess = false
       requestContactsAuthorization()
-    case .restricted:
-      contactsAccess = false
-      print("restricted")
-    case .denied:
-      contactsAccess = false
-      print("denied")
+    case .restricted, .denied:
     @unknown default:
-      contactsAccess = false
-      print("default")
+      print("foo")
     }
   }
 
@@ -249,7 +284,8 @@ struct MainView: View {
         var newContacts: [Contact] = []
 
         try store.enumerateContacts(with: request) {
-          contact, stop in
+          contact,
+          stop in
           for phoneNumber in contact.phoneNumbers {
             print(
               "Name: \(contact.givenName) \(contact.familyName), phone number: \(phoneNumber.value.stringValue)"
