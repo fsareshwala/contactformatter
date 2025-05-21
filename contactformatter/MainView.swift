@@ -82,98 +82,6 @@ struct ContactView: View {
 }
 
 struct ContactListView: View {
-  @Binding var contacts: [Contact]
-  @Binding var selectedFormatType: PhoneNumberFormat
-
-  let phoneNumberUtility = PhoneNumberUtility()
-
-  var body: some View {
-    Section(header: Text("Format Type").textCase(.none)) {
-      FormatTypeList(selectedFormatType: $selectedFormatType)
-    }
-
-    Section(header: Text("Contacts").textCase(.none)) {
-      if anyContactNeedsFormatting() {
-        ForEach($contacts, id: \.phoneNumber) { contact in
-          let formatted = phoneNumberUtility.format(
-            contact.parsedPhoneNumber.wrappedValue,
-            toType: selectedFormatType
-          )
-
-          if contact.phoneNumber.wrappedValue.value.stringValue != formatted {
-            ContactView(
-              isChecked: contact.isChecked,
-              name: contact.wrappedValue.name,
-              phoneNumber: formatted
-            )
-          }
-        }
-      } else {
-        Text("All contact phone numbers are formatted correctly")
-          .padding()
-          .multilineTextAlignment(.center)
-          .frame(maxWidth: .infinity, alignment: .center)
-      }
-    }
-  }
-
-  func anyContactNeedsFormatting() -> Bool {
-    for c in contacts {
-      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
-      if c.phoneNumber.value.stringValue != formatted {
-        return true
-      }
-    }
-
-    return false
-  }
-}
-
-struct WelcomeView: View {
-  var message = """
-    Welcome to Clean Dial!
-
-    This device does not have access to your contacts. Please update your settings to allow access.
-    """
-
-  var body: some View {
-    Text(message)
-      .padding()
-      .multilineTextAlignment(.center)
-      .frame(maxWidth: .infinity, alignment: .center)
-  }
-}
-
-struct RestrictedView: View {
-  var message = """
-    This application is not authorized to access contact data.
-
-    You cannot change this application’s status, possibly due to active restrictions such as \
-    parental controls being in place.
-    """
-
-  var body: some View {
-    Text(message)
-      .padding()
-      .multilineTextAlignment(.center)
-      .frame(maxWidth: .infinity, alignment: .center)
-  }
-}
-
-struct DeniedView: View {
-  var message = """
-    This device does not have access to your contacts. Please update your settings to allow access.
-    """
-
-  var body: some View {
-    Text(message)
-      .padding()
-      .multilineTextAlignment(.center)
-      .frame(maxWidth: .infinity, alignment: .center)
-  }
-}
-
-struct MainView: View {
   @State private var contacts: [Contact] = []
   @State private var selectedFormatType: PhoneNumberFormat = .international
 
@@ -182,18 +90,32 @@ struct MainView: View {
   var body: some View {
     NavigationView {
       List {
-        let status = CNContactStore.authorizationStatus(for: .contacts)
-        switch status {
-        case .authorized, .limited:
-          ContactListView(contacts: $contacts, selectedFormatType: $selectedFormatType)
-        case .notDetermined:
-          WelcomeView()
-        case .restricted:
-          RestrictedView()
-        case .denied:
-          fallthrough
-        @unknown default:
-          DeniedView()
+        Section(header: Text("Format Type").textCase(.none)) {
+          FormatTypeList(selectedFormatType: $selectedFormatType)
+        }
+
+        Section(header: Text("Contacts").textCase(.none)) {
+          if anyContactNeedsFormatting() {
+            ForEach($contacts, id: \.phoneNumber) { contact in
+              let formatted = phoneNumberUtility.format(
+                contact.parsedPhoneNumber.wrappedValue,
+                toType: selectedFormatType
+              )
+
+              if contact.phoneNumber.wrappedValue.value.stringValue != formatted {
+                ContactView(
+                  isChecked: contact.isChecked,
+                  name: contact.wrappedValue.name,
+                  phoneNumber: formatted
+                )
+              }
+            }
+          } else {
+            Text("All contact phone numbers are formatted correctly")
+              .padding()
+              .multilineTextAlignment(.center)
+              .frame(maxWidth: .infinity, alignment: .center)
+          }
         }
       }
       .navigationTitle("Contact Formatter")
@@ -208,6 +130,17 @@ struct MainView: View {
         }
       }
     }
+  }
+
+  func anyContactNeedsFormatting() -> Bool {
+    for c in contacts {
+      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
+      if c.phoneNumber.value.stringValue != formatted {
+        return true
+      }
+    }
+
+    return false
   }
 
   func saveContacts() {
@@ -253,6 +186,7 @@ struct MainView: View {
     case .notDetermined:
       requestContactsAuthorization()
     case .restricted, .denied:
+      fallthrough
     @unknown default:
       print("foo")
     }
@@ -312,6 +246,91 @@ struct MainView: View {
     }
 
     return PhoneNumber.notPhoneNumber()
+  }
+}
+
+struct WelcomeView: View {
+  let action: () -> Void
+
+  var message = """
+    Clean Dial formats your contact phone numbers into standard formats. Unfortunately, Clean Dial \
+    doesn't have access to your contacts yet. It needs access in order to load, format, and save \
+    contact phone numbers.
+
+    Please tap the button below to grant access to your contacts.
+    """
+
+  var body: some View {
+    VStack {
+      Text("Clean Dial")
+        .font(.title)
+        .bold()
+
+      Text(message)
+        .font(.footnote)
+        .padding()
+
+      Button(action: {
+        action()
+      }) {
+        Text("Grant Access")
+      }
+    }
+    .multilineTextAlignment(.center)
+    .frame(maxWidth: .infinity, alignment: .center)
+  }
+}
+
+struct RestrictedView: View {
+  private var message = """
+    This application is not authorized to access contact data.
+
+    You cannot change this application’s status, possibly due to active restrictions such as \
+    parental controls being in place.
+    """
+
+  var body: some View {
+    Text(message)
+      .padding()
+      .multilineTextAlignment(.center)
+      .frame(maxWidth: .infinity, alignment: .center)
+  }
+}
+
+struct DeniedView: View {
+  private var message = """
+    This device has been denied access to your contacts. Please update your settings to allow \
+    access.
+    """
+
+  var body: some View {
+    Text(message)
+      .padding()
+      .multilineTextAlignment(.center)
+      .frame(maxWidth: .infinity, alignment: .center)
+  }
+}
+
+struct MainView: View {
+  @State var authorizationStatus: CNAuthorizationStatus = CNContactStore.authorizationStatus(
+    for: .contacts
+  )
+
+  var body: some View {
+    switch authorizationStatus {
+    case .authorized, .limited:
+      ContactListView()
+    case .notDetermined:
+      WelcomeView(action: {
+        authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+      })
+    case .restricted:
+      RestrictedView()
+    case .denied:
+      DeniedView()
+    @unknown default:
+      DeniedView()
+    }
   }
 }
 
