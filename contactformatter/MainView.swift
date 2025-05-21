@@ -258,6 +258,8 @@ struct WelcomeView: View {
     contact phone numbers.
 
     Please tap the button below to grant access to your contacts.
+    
+    Note: Your contact data never leaves your device.
     """
 
   var body: some View {
