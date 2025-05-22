@@ -307,8 +307,6 @@ struct RestrictedView: View {
 
       Text(message)
         .padding()
-        .multilineTextAlignment(.center)
-        .frame(maxWidth: .infinity, alignment: .center)
     }
     .multilineTextAlignment(.center)
     .frame(maxWidth: .infinity, alignment: .center)
@@ -376,9 +374,7 @@ struct MainView: View {
   }
 
   func requestContactsAuthorization() {
-    let store = CNContactStore()
-
-    store.requestAccess(for: .contacts) { granted, error in
+    CNContactStore().requestAccess(for: .contacts) { granted, error in
       authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
     }
   }
