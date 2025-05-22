@@ -257,9 +257,8 @@ struct WelcomeView: View {
     doesn't have access to your contacts yet. It needs access in order to load, format, and save \
     contact phone numbers.
 
-    Please tap the button below to grant access to your contacts.
-    
-    Note: Your contact data never leaves your device.
+    Please tap the button below to grant access to your contacts. Your contact information never \
+    leaves your device.
     """
 
   var body: some View {
