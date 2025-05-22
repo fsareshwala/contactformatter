@@ -126,7 +126,9 @@ struct ContactListView: View {
           Button(action: { getContacts() }) { Text("Reload") }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: { saveContacts() }) { Text("Format") }
+          Button(action: { saveContacts() }) {
+            Text("Format").disabled(!anyContactNeedsFormatting())
+          }
         }
       }
     }
