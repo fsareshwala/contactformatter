@@ -18,7 +18,8 @@ The app currently supports the following phone number formats:
 
 ## Screenshot
 
-![Simulator Screenshot - iPhone 16 Pro Max - 2025-05-10 at 12 48 08](https://github.com/user-attachments/assets/87f57ed7-60fe-42e3-8047-1c064aba6a81)
+![Simulator Screenshot - iPhone 16 Pro Max - 2025-05-10 at 12 48 08](https://github.com/user-attachments/assets/71226576-784d-422f-98d7-dc917f429208)
+
 
 ## Contributing
 
