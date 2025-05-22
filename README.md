@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 iOS app to format contact phone numbers into standard formats. This app simplifies the process
-of keeping phone numbers in a user-friendly and consistent manner within your iOS applications.
+of keeping phone numbers in a user-friendly and consistent manner within your iOS device.
 
 ## Supported Formats
 
@@ -25,3 +25,4 @@ The app currently supports the following phone number formats:
 Contributions are welcome! If you'd like to contribute to this project, please ensure your code
 follows the existing style and includes appropriate tests. For major changes, please open an issue
 first to discuss what you would like to change.
+
