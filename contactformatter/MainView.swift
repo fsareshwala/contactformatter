@@ -231,7 +231,7 @@ struct ContactListView: View {
           }
         }
 
-        contacts = newContacts
+        contacts = newContacts.sorted(by: { $0.name < $1.name })
       } catch {
         print("Error on contact fetching \(error)")
       }
