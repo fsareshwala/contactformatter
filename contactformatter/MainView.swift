@@ -309,7 +309,7 @@ struct RestrictedView: View {
 
   var body: some View {
     VStack {
-      Image("welcome-icon")
+      Image("WelcomeIcon")
         .resizable()
         .scaledToFit()
         .frame(width: 100, height: 100)
@@ -337,7 +337,7 @@ struct DeniedView: View {
     VStack {
       Spacer()
 
-      Image("welcome-icon")
+      Image("WelcomeIcon")
         .resizable()
         .scaledToFit()
         .frame(width: 100, height: 100)
