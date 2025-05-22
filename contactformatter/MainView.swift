@@ -264,6 +264,13 @@ struct WelcomeView: View {
   var body: some View {
     VStack {
       Spacer()
+
+      Image("welcome-icon")
+        .resizable()
+        .scaledToFit()
+        .frame(width: 100, height: 100)
+        .padding(.bottom, 20)
+
       Text("Clean Dial")
         .font(.title)
         .bold()
@@ -273,6 +280,7 @@ struct WelcomeView: View {
         .padding()
 
       Spacer()
+
       Button(action: {
         action()
       }) {
@@ -301,6 +309,12 @@ struct RestrictedView: View {
 
   var body: some View {
     VStack {
+      Image("welcome-icon")
+        .resizable()
+        .scaledToFit()
+        .frame(width: 100, height: 100)
+        .padding(.bottom, 20)
+
       Text("Clean Dial")
         .font(.title)
         .bold()
@@ -322,6 +336,13 @@ struct DeniedView: View {
   var body: some View {
     VStack {
       Spacer()
+
+      Image("welcome-icon")
+        .resizable()
+        .scaledToFit()
+        .frame(width: 100, height: 100)
+        .padding(.bottom, 20)
+
       Text("Clean Dial")
         .font(.title)
         .bold()
@@ -331,6 +352,7 @@ struct DeniedView: View {
         .padding()
 
       Spacer()
+
       Button(action: {
         if let url = URL(string: UIApplication.openSettingsURLString) {
           UIApplication.shared.open(url)
