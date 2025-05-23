@@ -44,12 +44,8 @@ struct Contact {
   var isChecked: Bool = true
 
   var name: String {
-    if !contact.givenName.isEmpty || !contact.familyName.isEmpty {
-      return "\(contact.givenName) \(contact.familyName)"
-        .trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    return contact.organizationName
+    let formatter = CNContactFormatter()
+    return formatter.string(from: contact as CNContact) ?? "unknown name"
   }
 }
 
@@ -207,8 +203,12 @@ struct ContactListView: View {
     let store = CNContactStore()
     let keys: [CNKeyDescriptor] =
       [
+        CNContactTypeKey,
+        CNContactNamePrefixKey,
         CNContactGivenNameKey,
+        CNContactMiddleNameKey,
         CNContactFamilyNameKey,
+        CNContactNameSuffixKey,
         CNContactOrganizationNameKey,
         CNContactPhoneNumbersKey,
       ] as [CNKeyDescriptor]
