@@ -121,10 +121,10 @@ struct ContactListView: View {
       .navigationTitle("Contact Formatter")
       .navigationBarTitleDisplayMode(.inline)
       .onAppear(perform: getContacts)
+      .refreshable {
+        getContacts()
+      }
       .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button(action: { getContacts() }) { Text("Reload") }
-        }
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: { saveContacts() }) {
             Text("Format").disabled(!anyContactNeedsFormatting())
