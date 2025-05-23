@@ -171,7 +171,6 @@ struct ContactListView: View {
       do {
         let store = CNContactStore()
         try store.execute(saveRequest)
-        print("Contact updated successfully")
       } catch {
         print("Error saving contact: \(error)")
       }
@@ -223,10 +222,6 @@ struct ContactListView: View {
           contact,
           stop in
           for phoneNumber in contact.phoneNumbers {
-            print(
-              "Name: \(contact.givenName) \(contact.familyName), phone number: \(phoneNumber.value.stringValue)"
-            )
-
             var contact = Contact(contact: contact, phoneNumber: phoneNumber)
             contact.parsedPhoneNumber = parsePhoneNumber(contact.phoneNumber.value)
             newContacts.append(contact)
