@@ -13,9 +13,9 @@ struct FormatTypeOption {
 
 struct FormatTypeList: View {
   private let formatTypes: [(FormatTypeOption)] = [
-    FormatTypeOption(formatType: .e164, label: "e.164: +15555648583"),
     FormatTypeOption(formatType: .international, label: "International: +1 555-564-8583"),
     FormatTypeOption(formatType: .national, label: "National: (555) 564-8583"),
+    FormatTypeOption(formatType: .e164, label: "e.164: +15555648583"),
   ]
 
   @Binding var selectedFormatType: PhoneNumberFormat
@@ -246,27 +246,20 @@ struct ContactListView: View {
   }
 }
 
-struct WelcomeView: View {
+struct ActionView: View {
+  let message: String
+  let button: String
   let action: () -> Void
-
-  var message = """
-    Clean Dial formats your contact phone numbers into standard formats. Unfortunately, Clean Dial \
-    doesn't have access to your contacts yet. It needs access in order to load, format, and save \
-    contact phone numbers.
-
-    Please tap the button below to grant access to your contacts. Your contact information never \
-    leaves your device.
-    """
 
   var body: some View {
     VStack {
       Spacer()
 
-      Image("WelcomeIcon")
+      Image(systemName: "person.2.badge.plus")
         .resizable()
+        .renderingMode(.original)
         .scaledToFit()
         .frame(width: 100, height: 100)
-        .padding(.bottom, 20)
 
       Text("Clean Dial")
         .font(.title)
@@ -281,7 +274,7 @@ struct WelcomeView: View {
       Button(action: {
         action()
       }) {
-        Text("Grant Access")
+        Text(button)
           .font(.headline)
           .foregroundColor(.white)
           .frame(minWidth: 200)
@@ -296,21 +289,16 @@ struct WelcomeView: View {
   }
 }
 
-struct RestrictedView: View {
-  private var message = """
-    This application is not authorized to access contact data.
-
-    You cannot change this application’s status, possibly due to active restrictions such as \
-    parental controls being in place.
-    """
+struct MessageView: View {
+  let message: String
 
   var body: some View {
     VStack {
-      Image("WelcomeIcon")
+      Image(systemName: "person.2.badge.plus")
         .resizable()
+        .renderingMode(.original)
         .scaledToFit()
         .frame(width: 100, height: 100)
-        .padding(.bottom, 20)
 
       Text("Clean Dial")
         .font(.title)
@@ -318,52 +306,6 @@ struct RestrictedView: View {
 
       Text(message)
         .padding()
-    }
-    .multilineTextAlignment(.center)
-    .frame(maxWidth: .infinity, alignment: .center)
-  }
-}
-
-struct DeniedView: View {
-  private var message = """
-    This device has been denied access to your contacts. Please update your settings to allow \
-    access.
-    """
-
-  var body: some View {
-    VStack {
-      Spacer()
-
-      Image("WelcomeIcon")
-        .resizable()
-        .scaledToFit()
-        .frame(width: 100, height: 100)
-        .padding(.bottom, 20)
-
-      Text("Clean Dial")
-        .font(.title)
-        .bold()
-
-      Text(message)
-        .font(.callout)
-        .padding()
-
-      Spacer()
-
-      Button(action: {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-          UIApplication.shared.open(url)
-        }
-      }) {
-        Text("Open Settings")
-          .font(.headline)
-          .foregroundColor(.white)
-          .frame(minWidth: 200)
-          .padding()
-          .background(Color.accentColor)
-          .cornerRadius(10)
-      }
-      .padding(.bottom, 50)
     }
     .multilineTextAlignment(.center)
     .frame(maxWidth: .infinity, alignment: .center)
@@ -371,30 +313,69 @@ struct DeniedView: View {
 }
 
 struct MainView: View {
-  @State var authorizationStatus: CNAuthorizationStatus = CNContactStore.authorizationStatus(
-    for: .contacts
-  )
+  @State var authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+
+  var welcomeMessage = """
+    Clean Dial needs access to your contacts in order to load, format, and save contact phone \
+    numbers. Unfortunately, Clean Dial doesn't have access yet. 
+
+    Please tap the button below to grant access. Your contact information never leaves your device.
+    """
+
+  var restrictedMessage = """
+    This application is not authorized to access contact data.
+
+    You cannot change this application’s status, possibly due to active restrictions such as \
+    parental controls being in place.
+    """
+
+  var deniedMessage = """
+    This device has been denied access to your contacts. Please update your settings to allow \
+    access.
+    """
 
   var body: some View {
     switch authorizationStatus {
     case .authorized, .limited:
       ContactListView()
     case .notDetermined:
-      WelcomeView(action: {
-        requestContactsAuthorization()
-      })
+      ActionView(
+        message: welcomeMessage,
+        button: "Grant Access",
+        action: {
+          requestContactsAuthorization()
+        }
+      )
     case .restricted:
-      RestrictedView()
+      MessageView(message: restrictedMessage)
     case .denied:
-      DeniedView()
+      ActionView(
+        message: deniedMessage,
+        button: "Open Settings",
+        action: {
+          openSettings()
+        }
+      )
     @unknown default:
-      DeniedView()
+      ActionView(
+        message: deniedMessage,
+        button: "Open Settings",
+        action: {
+          openSettings()
+        }
+      )
     }
   }
 
   func requestContactsAuthorization() {
     CNContactStore().requestAccess(for: .contacts) { granted, error in
       authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+    }
+  }
+
+  func openSettings() {
+    if let url = URL(string: UIApplication.openSettingsURLString) {
+      UIApplication.shared.open(url)
     }
   }
 }
