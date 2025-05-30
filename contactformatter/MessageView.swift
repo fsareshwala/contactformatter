@@ -5,7 +5,7 @@ struct MessageView: View {
 
   var body: some View {
     VStack {
-      Image(systemName: "person.2.badge.plus")
+      Image(systemName: "book.and.wrench.fill")
         .resizable()
         .renderingMode(.original)
         .scaledToFit()
