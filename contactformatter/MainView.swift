@@ -114,7 +114,7 @@ struct ContactListView: View {
           }
         }
       }
-      .navigationTitle("Contact Formatter")
+      .navigationTitle("Clean Dial")
       .navigationBarTitleDisplayMode(.inline)
       .onAppear(perform: getContacts)
       .refreshable {
