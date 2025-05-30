@@ -1,10 +1,3 @@
-//
-//  contactformatterUITests.swift
-//  contactformatterUITests
-//
-//  Created by Faraaz Sareshwala on 4/22/25.
-//
-
 import XCTest
 
 final class contactformatterUITests: XCTestCase {
