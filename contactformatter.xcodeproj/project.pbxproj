@@ -29,9 +29,22 @@
 		BBE9835C2DB7FA44004685CF /* contactformatterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = contactformatterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BB99240F2DEA6D68002B7BCF /* Exceptions for "contactformatter" folder in "contactformatter" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BBE983412DB7FA43004685CF /* contactformatter */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BBE983442DB7FA43004685CF /* contactformatter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BB99240F2DEA6D68002B7BCF /* Exceptions for "contactformatter" folder in "contactformatter" target */,
+			);
 			path = contactformatter;
 			sourceTree = "<group>";
 		};
@@ -403,7 +416,9 @@
 				DEVELOPMENT_TEAM = F6W6TR89TJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = contactformatter/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Clean Dial";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSContactsUsageDescription = "This app loads your contacts, formats their phone numbers into standardized formats, and saves them back to your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,7 +454,9 @@
 				DEVELOPMENT_TEAM = F6W6TR89TJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = contactformatter/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Clean Dial";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSContactsUsageDescription = "This app loads your contacts, formats their phone numbers into standardized formats, and saves them back to your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
