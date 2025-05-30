@@ -268,6 +268,8 @@ struct ActionView: View {
       Text(message)
         .font(.callout)
         .padding()
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity, alignment: .center)
 
       Spacer()
 
@@ -284,8 +286,6 @@ struct ActionView: View {
       }
       .padding(.bottom, 50)
     }
-    .multilineTextAlignment(.center)
-    .frame(maxWidth: .infinity, alignment: .center)
   }
 }
 
@@ -306,9 +306,9 @@ struct MessageView: View {
 
       Text(message)
         .padding()
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
-    .multilineTextAlignment(.center)
-    .frame(maxWidth: .infinity, alignment: .center)
   }
 }
 
