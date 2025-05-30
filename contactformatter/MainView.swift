@@ -13,9 +13,9 @@ struct FormatTypeOption {
 
 struct FormatTypeList: View {
   private let formatTypes: [(FormatTypeOption)] = [
-    FormatTypeOption(formatType: .international, label: "International: +1 555-564-8583"),
-    FormatTypeOption(formatType: .national, label: "National: (555) 564-8583"),
-    FormatTypeOption(formatType: .e164, label: "e.164: +15555648583"),
+    FormatTypeOption(formatType: .international, label: "International"),
+    FormatTypeOption(formatType: .national, label: "National"),
+    FormatTypeOption(formatType: .e164, label: "e.164"),
   ]
 
   @Binding var selectedFormatType: PhoneNumberFormat
