@@ -7,7 +7,7 @@ struct MessageView: View {
     VStack {
       Image(systemName: "book.and.wrench.fill")
         .resizable()
-        .renderingMode(.original)
+        .foregroundStyle(.tint)
         .scaledToFit()
         .frame(width: 100, height: 100)
 
