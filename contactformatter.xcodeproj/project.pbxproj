@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BB9924662DEACA8C002B7BCF /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = BB9924652DEACA8C002B7BCF /* PhoneNumberKit-Static */; };
+		BBC3992B2DD151670005BDD5 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = BBC3992A2DD151670005BDD5 /* PhoneNumberKit-Static */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BBE983532DB7FA44004685CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBC3992B2DD151670005BDD5 /* PhoneNumberKit-Static in Frameworks */,
+				BB9924662DEACA8C002B7BCF /* PhoneNumberKit-Static in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +132,8 @@
 			);
 			name = contactformatter;
 			packageProductDependencies = (
+				BBC3992A2DD151670005BDD5 /* PhoneNumberKit-Static */,
+				BB9924652DEACA8C002B7BCF /* PhoneNumberKit-Static */,
 			);
 			productName = contactformatter;
 			productReference = BBE983422DB7FA43004685CF /* contactformatter.app */;
@@ -209,6 +218,7 @@
 			mainGroup = BBE983392DB7FA43004685CF;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				BB9924642DEACA8C002B7BCF /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BBE983432DB7FA43004685CF /* Products */;
@@ -589,6 +599,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BB9924642DEACA8C002B7BCF /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BB9924652DEACA8C002B7BCF /* PhoneNumberKit-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB9924642DEACA8C002B7BCF /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = "PhoneNumberKit-Static";
+		};
+		BBC3992A2DD151670005BDD5 /* PhoneNumberKit-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "PhoneNumberKit-Static";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BBE9833A2DB7FA43004685CF /* Project object */;
 }
