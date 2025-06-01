@@ -2,7 +2,9 @@ import Contacts
 import PhoneNumberKit
 import SwiftUI
 
-struct Contact {
+struct Contact: Identifiable {
+  let id = UUID()
+
   var contact: CNContact
   var phoneNumber: CNLabeledValue<CNPhoneNumber>
   var parsedPhoneNumber: PhoneNumber = PhoneNumber.notPhoneNumber()
@@ -29,7 +31,7 @@ struct ContactListView: View {
 
         Section(header: Text("Contacts").textCase(.none)) {
           if anyContactNeedsFormatting() {
-            ForEach($contacts, id: \.phoneNumber) { contact in
+            ForEach($contacts) { contact in
               let formatted = phoneNumberUtility.format(
                 contact.parsedPhoneNumber.wrappedValue,
                 toType: selectedFormatType

@@ -1,7 +1,9 @@
 import PhoneNumberKit
 import SwiftUI
 
-struct FormatTypeOption {
+struct FormatTypeOption: Identifiable {
+  let id = UUID()
+
   var formatType: PhoneNumberFormat
   var label: String
 }
@@ -16,7 +18,7 @@ struct FormatTypeList: View {
   @Binding var selectedFormatType: PhoneNumberFormat
 
   var body: some View {
-    ForEach(formatTypes, id: \.formatType) { item in
+    ForEach(formatTypes) { item in
       HStack {
         Button(action: {
           selectedFormatType = item.formatType
