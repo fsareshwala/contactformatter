@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HeaderView: View {
+struct LogoView: View {
   var body: some View {
     VStack {
       Image(systemName: "book.and.wrench.fill")
@@ -12,6 +12,7 @@ struct HeaderView: View {
       Text("Clean Dial")
         .font(.largeTitle)
         .bold()
+        .padding(.bottom, 50)
     }
   }
 }

@@ -13,14 +13,14 @@ struct FeatureView: View {
         .foregroundStyle(.tint)
         .scaledToFit()
         .frame(width: 30, height: 30)
-        .padding(.trailing, 10)
+        .padding(.trailing, 20)
 
       VStack(alignment: .leading) {
         Text(title)
-          .bold()
+          .font(.headline)
 
         Text(subtitle)
-          .font(.subheadline)
+          .font(.callout)
           .foregroundStyle(.gray)
       }
     }
@@ -34,8 +34,7 @@ struct WelcomeView: View {
     VStack {
       Spacer()
 
-      HeaderView()
-        .padding(.bottom, 20)
+      LogoView()
       VStack(alignment: .leading, spacing: 25) {
         FeatureView(
           imageName: "person.text.rectangle",
