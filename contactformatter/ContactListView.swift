@@ -79,6 +79,11 @@ struct ContactListView: View {
   }
 
   func saveContacts() {
+    if !anyContactNeedsFormatting() {
+      return
+    }
+
+
     for c in contacts {
       if !c.isChecked {
         continue
