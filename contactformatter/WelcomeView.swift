@@ -54,8 +54,7 @@ struct WelcomeView: View {
           subtitle: "Your contact information never leaves your device"
         )
       }
-      .padding(.leading, 20)
-      .padding(.trailing, 20)
+      .padding()
 
       Spacer()
       Text("Please tap the button below to grant Clean Dial access to your contacts")
