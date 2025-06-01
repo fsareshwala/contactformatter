@@ -26,3 +26,7 @@ struct ActionView: View {
     }
   }
 }
+
+#Preview {
+  ActionView(message: "message", button: "button", action: {})
+}

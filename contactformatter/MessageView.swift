@@ -5,20 +5,15 @@ struct MessageView: View {
 
   var body: some View {
     VStack {
-      Image(systemName: "book.and.wrench.fill")
-        .resizable()
-        .foregroundStyle(.tint)
-        .scaledToFit()
-        .frame(width: 100, height: 100)
-
-      Text("Clean Dial")
-        .font(.title)
-        .bold()
-
+      HeaderView()
       Text(message)
         .padding()
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity, alignment: .center)
     }
   }
+}
+
+#Preview {
+  MessageView(message: "foo")
 }
