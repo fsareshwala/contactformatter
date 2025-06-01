@@ -12,7 +12,7 @@ struct FeatureView: View {
         .resizable()
         .foregroundStyle(.tint)
         .scaledToFit()
-        .frame(width: 30, height: 30)
+        .frame(width: 35, height: 35)
         .padding(.trailing, 20)
 
       VStack(alignment: .leading) {
