@@ -2,6 +2,18 @@ import Contacts
 import PhoneNumberKit
 import SwiftUI
 
+struct Contact {
+  var contact: CNContact
+  var phoneNumber: CNLabeledValue<CNPhoneNumber>
+  var parsedPhoneNumber: PhoneNumber = PhoneNumber.notPhoneNumber()
+  var isChecked: Bool = true
+
+  var name: String {
+    let formatter = CNContactFormatter()
+    return formatter.string(from: contact as CNContact) ?? "unknown name"
+  }
+}
+
 struct ContactListView: View {
   @State private var contacts: [Contact] = []
   @State private var selectedFormatType: PhoneNumberFormat = .international
