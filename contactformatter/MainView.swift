@@ -2,10 +2,6 @@ import Contacts
 import PhoneNumberKit
 import SwiftUI
 
-// NavigationLink(destination: DetailView()) {
-//     Text("Go to Detail View")
-// }
-
 struct MainView: View {
   @State var authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
 
