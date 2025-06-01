@@ -3,16 +3,16 @@ import SwiftUI
 struct LogoView: View {
   var body: some View {
     VStack {
-      Image(systemName: "book.and.wrench.fill")
+      Image(systemName: "person.crop.circle.badge.checkmark")
+        .symbolRenderingMode(.multicolor)
         .resizable()
-        .foregroundStyle(.tint)
         .scaledToFit()
         .frame(width: 85, height: 85)
 
       Text("Clean Dial")
         .font(.largeTitle)
         .bold()
-        .padding(.bottom, 50)
+        .padding(.bottom, 10)
     }
   }
 }
