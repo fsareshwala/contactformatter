@@ -3,9 +3,8 @@ import SwiftUI
 
 struct FormatTypeOption: Identifiable {
   let id = UUID()
-
-  var formatType: PhoneNumberFormat
-  var label: String
+  let formatType: PhoneNumberFormat
+  let label: String
 }
 
 struct FormatTypeList: View {

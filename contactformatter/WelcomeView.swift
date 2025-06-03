@@ -13,15 +13,16 @@ struct FeatureView: View {
         .foregroundStyle(.tint)
         .scaledToFit()
         .frame(width: 35, height: 35)
-        .padding(.trailing, 20)
+        .padding(.trailing)
 
       VStack(alignment: .leading) {
         Text(title)
           .font(.headline)
+          .foregroundColor(.primary)
 
         Text(subtitle)
           .font(.callout)
-          .foregroundStyle(.gray)
+          .foregroundColor(.secondary)
       }
     }
   }
@@ -45,13 +46,13 @@ struct WelcomeView: View {
         FeatureView(
           imageName: "switch.2",
           title: "Easily switch between formats",
-          subtitle: "Choose from standard formats (national, international, e.164)"
+          subtitle: "Choose from standard formats"
         )
 
         FeatureView(
           imageName: "hand.raised.app",
           title: "Privacy focused",
-          subtitle: "Your contact information never leaves your device"
+          subtitle: "Your contacts never leave your device"
         )
       }
       .padding()
@@ -68,13 +69,10 @@ struct WelcomeView: View {
       }) {
         Text("Grant Access")
           .font(.headline)
-          .foregroundColor(.white)
-          .frame(minWidth: 200)
-          .padding()
-          .background(Color.accentColor)
-          .cornerRadius(10)
       }
-      .padding(.bottom, 50)
+      .buttonStyle(.borderedProminent)
+      .controlSize(.large)
+      .padding()
     }
   }
 

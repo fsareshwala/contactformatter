@@ -2,8 +2,8 @@ import SwiftUI
 
 struct ContactView: View {
   @Binding var isChecked: Bool
-  var name: String
-  var phoneNumber: String
+  let name: String
+  let phoneNumber: String
 
   var body: some View {
     HStack {

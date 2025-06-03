@@ -12,7 +12,7 @@ struct LogoView: View {
       Text("Clean Dial")
         .font(.largeTitle)
         .bold()
-        .padding(.bottom, 10)
+        .padding(.bottom)
     }
   }
 }
