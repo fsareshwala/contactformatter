@@ -69,7 +69,7 @@ struct ContactListView: View {
     }
   }
 
-  func anyContactNeedsFormatting() -> Bool {
+  private func anyContactNeedsFormatting() -> Bool {
     for c in contacts {
       let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
       if c.phoneNumber.value.stringValue != formatted {
@@ -80,7 +80,7 @@ struct ContactListView: View {
     return false
   }
 
-  func saveContacts() {
+  private func saveContacts() {
     if !anyContactNeedsFormatting() {
       return
     }
@@ -119,7 +119,7 @@ struct ContactListView: View {
     getContacts()
   }
 
-  func getContacts() {
+  private func getContacts() {
     let status = CNContactStore.authorizationStatus(for: .contacts)
     switch status {
     case .authorized, .limited:
@@ -133,7 +133,7 @@ struct ContactListView: View {
     }
   }
 
-  func requestContactsAuthorization() {
+  private func requestContactsAuthorization() {
     let store = CNContactStore()
 
     store.requestAccess(for: .contacts) { granted, error in
@@ -143,7 +143,7 @@ struct ContactListView: View {
     }
   }
 
-  func makeContactsFetchRequest() {
+  private func makeContactsFetchRequest() {
     let store = CNContactStore()
     let keys: [CNKeyDescriptor] =
       [
@@ -179,7 +179,7 @@ struct ContactListView: View {
     }
   }
 
-  func parsePhoneNumber(_ phoneNumber: CNPhoneNumber) -> PhoneNumber {
+  private func parsePhoneNumber(_ phoneNumber: CNPhoneNumber) -> PhoneNumber {
     do {
       return try phoneNumberUtility.parse(phoneNumber.stringValue, ignoreType: true)
     } catch {

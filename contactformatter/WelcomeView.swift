@@ -76,7 +76,7 @@ struct WelcomeView: View {
     }
   }
 
-  func requestContactsAuthorization() {
+  private func requestContactsAuthorization() {
     CNContactStore().requestAccess(for: .contacts) { granted, error in
       authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
     }
