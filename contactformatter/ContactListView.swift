@@ -4,14 +4,14 @@ import SwiftUI
 
 struct Contact: Identifiable {
   let id = UUID()
+  let formatter = CNContactFormatter()
 
-  var contact: CNContact
+  let contact: CNContact
   var phoneNumber: CNLabeledValue<CNPhoneNumber>
-  var parsedPhoneNumber: PhoneNumber = PhoneNumber.notPhoneNumber()
-  var isChecked: Bool = true
+  var parsedPhoneNumber: PhoneNumber
 
+  var isChecked: Bool = true
   var name: String {
-    let formatter = CNContactFormatter()
     return formatter.string(from: contact as CNContact) ?? "unknown name"
   }
 }
@@ -85,7 +85,6 @@ struct ContactListView: View {
       return
     }
 
-
     for c in contacts {
       if !c.isChecked {
         continue
@@ -115,8 +114,6 @@ struct ContactListView: View {
         print("Error saving contact: \(error)")
       }
     }
-
-    getContacts()
   }
 
   private func getContacts() {
@@ -160,19 +157,22 @@ struct ContactListView: View {
     let request = CNContactFetchRequest(keysToFetch: keys)
     DispatchQueue.global().async {
       do {
-        var newContacts: [Contact] = []
-
+        contacts.removeAll()
         try store.enumerateContacts(with: request) {
           contact,
           stop in
           for phoneNumber in contact.phoneNumbers {
-            var contact = Contact(contact: contact, phoneNumber: phoneNumber)
-            contact.parsedPhoneNumber = parsePhoneNumber(contact.phoneNumber.value)
-            newContacts.append(contact)
+            let parsed = parsePhoneNumber(phoneNumber.value)
+            let contact = Contact(
+              contact: contact,
+              phoneNumber: phoneNumber,
+              parsedPhoneNumber: parsed
+            )
+            contacts.append(contact)
           }
         }
 
-        contacts = newContacts.sorted(by: { $0.name < $1.name })
+        contacts = contacts.sorted(by: { $0.name < $1.name })
       } catch {
         print("Error on contact fetching \(error)")
       }
