@@ -2,9 +2,10 @@ import Contacts
 import PhoneNumberKit
 import SwiftUI
 
-struct Contact: Identifiable {
+class Contact: Identifiable {
   let id = UUID()
   let formatter = CNContactFormatter()
+  let phoneNumberUtility = PhoneNumberUtility()
 
   let contact: CNContact
   var phoneNumber: CNLabeledValue<CNPhoneNumber>
@@ -13,6 +14,29 @@ struct Contact: Identifiable {
   var isChecked: Bool = true
   var name: String {
     return formatter.string(from: contact as CNContact) ?? "unknown name"
+  }
+
+  init(
+    contact: CNContact,
+    phoneNumber: CNLabeledValue<CNPhoneNumber>,
+    isChecked: Bool = true
+  ) {
+    self.contact = contact
+    self.phoneNumber = phoneNumber
+    self.isChecked = isChecked
+
+    do {
+      parsedPhoneNumber = try phoneNumberUtility.parse(
+        phoneNumber.value.stringValue,
+        ignoreType: true
+      )
+    } catch {
+      parsedPhoneNumber = PhoneNumber.notPhoneNumber()
+    }
+  }
+
+  public func hasValidPhoneNumber() -> Bool {
+    return parsedPhoneNumber != PhoneNumber.notPhoneNumber()
   }
 }
 
@@ -198,11 +222,9 @@ struct ContactListView: View {
           contact,
           stop in
           for phoneNumber in contact.phoneNumbers {
-            let parsed = parsePhoneNumber(phoneNumber.value)
             let contact = Contact(
               contact: contact,
               phoneNumber: phoneNumber,
-              parsedPhoneNumber: parsed
             )
             contacts.append(contact)
           }
