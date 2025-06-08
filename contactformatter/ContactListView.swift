@@ -71,6 +71,10 @@ struct ContactListView: View {
 
   private func anyContactNeedsFormatting() -> Bool {
     for c in contacts {
+      if !c.hasValidPhoneNumber() {
+        continue
+      }
+
       let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
       if c.phoneNumber.value.stringValue != formatted {
         return true
@@ -90,6 +94,10 @@ struct ContactListView: View {
         continue
       }
 
+      if !c.hasValidPhoneNumber() {
+        continue
+      }
+
       guard let index = c.contact.phoneNumbers.firstIndex(of: c.phoneNumber) else {
         continue
       }
@@ -98,10 +106,10 @@ struct ContactListView: View {
         continue
       }
 
-      let value = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
+      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
       contact.phoneNumbers[index] = CNLabeledValue(
         label: c.phoneNumber.label,
-        value: CNPhoneNumber(stringValue: value)
+        value: CNPhoneNumber(stringValue: formatted)
       )
 
       let saveRequest = CNSaveRequest()
@@ -177,15 +185,5 @@ struct ContactListView: View {
         print("Error on contact fetching \(error)")
       }
     }
-  }
-
-  private func parsePhoneNumber(_ phoneNumber: CNPhoneNumber) -> PhoneNumber {
-    do {
-      return try phoneNumberUtility.parse(phoneNumber.stringValue, ignoreType: true)
-    } catch {
-      print("invalid number: \(phoneNumber.stringValue)")
-    }
-
-    return PhoneNumber.notPhoneNumber()
   }
 }
