@@ -27,7 +27,7 @@ struct FormatTypeList: View {
             .foregroundColor(selected ? .blue : .gray)
         }
 
-        Text(item.label)
+        Text(item.label).font(.callout)
       }
     }
   }
