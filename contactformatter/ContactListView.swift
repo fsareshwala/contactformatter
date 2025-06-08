@@ -84,17 +84,19 @@ struct ContactListView: View {
         Section(header: Text("Contacts").textCase(.none)) {
           if anyContactNeedsFormatting() {
             ForEach($contacts) { contact in
-              let formatted = phoneNumberUtility.format(
-                contact.parsedPhoneNumber.wrappedValue,
-                toType: selectedFormatType
-              )
-
-              if contact.phoneNumber.wrappedValue.value.stringValue != formatted {
-                ContactView(
-                  isChecked: contact.isChecked,
-                  name: contact.wrappedValue.name,
-                  phoneNumber: formatted
+              if contact.wrappedValue.hasValidPhoneNumber() {
+                let formatted = phoneNumberUtility.format(
+                  contact.parsedPhoneNumber.wrappedValue,
+                  toType: selectedFormatType
                 )
+
+                if contact.phoneNumber.wrappedValue.value.stringValue != formatted {
+                  ContactView(
+                    isChecked: contact.isChecked,
+                    name: contact.wrappedValue.name,
+                    phoneNumber: formatted
+                  )
+                }
               }
             }
           } else {
