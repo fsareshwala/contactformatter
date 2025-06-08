@@ -176,6 +176,8 @@ struct ContactListView: View {
         print("Error saving contact: \(error)")
       }
     }
+
+    getContacts()
   }
 
   private func getContacts() {
@@ -219,7 +221,8 @@ struct ContactListView: View {
     let request = CNContactFetchRequest(keysToFetch: keys)
     DispatchQueue.global().async {
       do {
-        contacts.removeAll()
+        var newContacts: [Contact] = []
+
         try store.enumerateContacts(with: request) {
           contact,
           stop in
@@ -228,11 +231,11 @@ struct ContactListView: View {
               contact: contact,
               phoneNumber: phoneNumber,
             )
-            contacts.append(contact)
+            newContacts.append(contact)
           }
         }
 
-        contacts = contacts.sorted(by: { $0.name < $1.name })
+        contacts = newContacts.sorted(by: { $0.name < $1.name })
       } catch {
         print("Error on contact fetching \(error)")
       }
