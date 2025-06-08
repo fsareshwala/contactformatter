@@ -55,7 +55,7 @@ struct ContactView: View {
           .padding(.trailing)
       }
 
-      Text(name)
+      Text(name).font(.callout)
       Spacer()
       Text(phoneNumber).font(.footnote)
     }
@@ -102,6 +102,7 @@ struct ContactListView: View {
           } else {
             Text("All contact phone numbers are formatted correctly")
               .padding()
+              .font(.callout)
               .multilineTextAlignment(.center)
               .frame(maxWidth: .infinity, alignment: .center)
           }
