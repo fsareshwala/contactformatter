@@ -32,10 +32,6 @@ class ContactListViewModel: ObservableObject {
         continue
       }
 
-      if !c.hasValidPhoneNumber() {
-        continue
-      }
-
       guard let index = c.deviceContact.phoneNumbers.firstIndex(of: c.devicePhoneNumber) else {
         continue
       }
