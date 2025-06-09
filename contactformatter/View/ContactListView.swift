@@ -6,6 +6,8 @@ struct ContactListView: View {
   @StateObject var viewModel: ContactListViewModel = ContactListViewModel()
   @State var invalidContactsSheetPresented: Bool = false
 
+  @Environment(\.scenePhase) var scenePhase
+
   var body: some View {
     NavigationView {
       List {
@@ -60,9 +62,16 @@ struct ContactListView: View {
       }
       .navigationTitle("Clean Dial")
       .navigationBarTitleDisplayMode(.inline)
-      .onAppear(perform: viewModel.getContacts)
-      .refreshable {
-        viewModel.getContacts()
+      .refreshable { viewModel.getContacts() }
+      .onChange(of: scenePhase) { newPhase in
+        switch newPhase {
+        case .active:
+          viewModel.getContacts()
+        case .inactive, .background:
+          break
+        @unknown default:
+          break
+        }
       }
       .sheet(
         isPresented: $invalidContactsSheetPresented,
