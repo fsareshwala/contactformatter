@@ -4,12 +4,12 @@ import SwiftUI
 
 class Contact: Identifiable {
   let id = UUID()
-  let formatter = CNContactFormatter()
-  let phoneNumberUtility = PhoneNumberUtility()
+  private let formatter = CNContactFormatter()
+  private let phoneNumberUtility = PhoneNumberUtility()
 
   let contact: CNContact
   var phoneNumber: CNLabeledValue<CNPhoneNumber>
-  var parsedPhoneNumber: PhoneNumber
+  var parsed: PhoneNumber
 
   var isChecked: Bool = true
   var name: String {
@@ -26,17 +26,17 @@ class Contact: Identifiable {
     self.isChecked = isChecked
 
     do {
-      parsedPhoneNumber = try phoneNumberUtility.parse(
+      parsed = try phoneNumberUtility.parse(
         phoneNumber.value.stringValue,
         ignoreType: true
       )
     } catch {
-      parsedPhoneNumber = PhoneNumber.notPhoneNumber()
+      parsed = PhoneNumber.notPhoneNumber()
     }
   }
 
   public func hasValidPhoneNumber() -> Bool {
-    return parsedPhoneNumber != PhoneNumber.notPhoneNumber()
+    return parsed != PhoneNumber.notPhoneNumber()
   }
 }
 
@@ -86,7 +86,7 @@ struct ContactListView: View {
             ForEach($contacts) { contact in
               if contact.wrappedValue.hasValidPhoneNumber() {
                 let formatted = phoneNumberUtility.format(
-                  contact.parsedPhoneNumber.wrappedValue,
+                  contact.parsed.wrappedValue,
                   toType: selectedFormatType
                 )
 
@@ -130,7 +130,7 @@ struct ContactListView: View {
         continue
       }
 
-      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
+      let formatted = phoneNumberUtility.format(c.parsed, toType: selectedFormatType)
       if c.phoneNumber.value.stringValue != formatted {
         return true
       }
@@ -161,7 +161,7 @@ struct ContactListView: View {
         continue
       }
 
-      let formatted = phoneNumberUtility.format(c.parsedPhoneNumber, toType: selectedFormatType)
+      let formatted = phoneNumberUtility.format(c.parsed, toType: selectedFormatType)
       contact.phoneNumbers[index] = CNLabeledValue(
         label: c.phoneNumber.label,
         value: CNPhoneNumber(stringValue: formatted)
