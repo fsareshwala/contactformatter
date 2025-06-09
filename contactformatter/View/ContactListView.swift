@@ -1,0 +1,82 @@
+import Contacts
+import PhoneNumberKit
+import SwiftUI
+
+struct ContactListView: View {
+  @StateObject var viewModel: ContactListViewModel = ContactListViewModel()
+  @State var invalidContactsSheetPresented: Bool = false
+
+  var body: some View {
+    NavigationView {
+      List {
+        Section(header: Text("Format Type").textCase(.none)) {
+          FormatTypeList(selectedFormatType: $viewModel.selectedFormatType)
+        }
+
+        Section(header: Text("Contacts").textCase(.none)) {
+          if !viewModel.anyContactNeedsFormatting() {
+            Text("All contact phone numbers are formatted correctly")
+              .padding()
+              .font(.callout)
+              .multilineTextAlignment(.center)
+              .frame(maxWidth: .infinity, alignment: .center)
+          }
+
+          ForEach($viewModel.validContacts) { contact in
+            let c = contact.wrappedValue
+            if c.needsFormatting(toFormat: viewModel.selectedFormatType) {
+              let formatted = c.formatPhoneNumber(viewModel.selectedFormatType)
+              if c.phoneNumber != formatted {
+                ContactView(
+                  isChecked: contact.isChecked,
+                  name: c.name,
+                  phoneNumber: formatted
+                )
+              }
+            }
+          }
+        }
+
+        if !$viewModel.invalidContacts.isEmpty {
+          Section(header: HStack{
+            Text(("Invalid Contacts")).textCase(.none)
+            Button(action: { invalidContactsSheetPresented = true }) {
+              Image(systemName: "info.circle")
+                .foregroundColor(.blue)
+            }
+          }) {
+            ForEach($viewModel.invalidContacts) { contact in
+              HStack {
+                let c = contact.wrappedValue
+                Text(c.name)
+                  .font(.callout)
+                Spacer()
+                Text(c.devicePhoneNumber.value.stringValue)
+                  .font(.footnote)
+              }
+            }
+          }
+        }
+      }
+      .navigationTitle("Clean Dial")
+      .navigationBarTitleDisplayMode(.inline)
+      .onAppear(perform: viewModel.getContacts)
+      .refreshable {
+        viewModel.getContacts()
+      }
+      .sheet(
+        isPresented: $invalidContactsSheetPresented,
+        onDismiss: { invalidContactsSheetPresented = false }
+      ) {
+        InvalidContactsInfoView(isPresented: $invalidContactsSheetPresented)
+      }
+      .toolbar {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button(action: { viewModel.saveContacts() }) {
+            Text("Format").disabled(!viewModel.anyContactNeedsFormatting())
+          }
+        }
+      }
+    }
+  }
+}
