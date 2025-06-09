@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		BB9924662DEACA8C002B7BCF /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = BB9924652DEACA8C002B7BCF /* PhoneNumberKit-Static */; };
+		BBAB2B472DF767A300D5E1F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BBAB2B462DF767A300D5E1F8 /* GoogleService-Info.plist */; };
+		BBAB2B482DF767A300D5E1F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BBAB2B462DF767A300D5E1F8 /* GoogleService-Info.plist */; };
+		BBAB2B492DF767A300D5E1F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BBAB2B462DF767A300D5E1F8 /* GoogleService-Info.plist */; };
+		BBAB2B4C2DF7685400D5E1F8 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = BBAB2B4B2DF7685400D5E1F8 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		BBC3992B2DD151670005BDD5 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = BBC3992A2DD151670005BDD5 /* PhoneNumberKit-Static */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BBAB2B462DF767A300D5E1F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BBE983422DB7FA43004685CF /* contactformatter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contactformatter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBE983522DB7FA44004685CF /* contactformatterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = contactformatterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBE9835C2DB7FA44004685CF /* contactformatterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = contactformatterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +76,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBC3992B2DD151670005BDD5 /* PhoneNumberKit-Static in Frameworks */,
+				BBAB2B4C2DF7685400D5E1F8 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				BB9924662DEACA8C002B7BCF /* PhoneNumberKit-Static in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +105,7 @@
 				BBE983552DB7FA44004685CF /* contactformatterTests */,
 				BBE9835F2DB7FA44004685CF /* contactformatterUITests */,
 				BBE983432DB7FA43004685CF /* Products */,
+				BBAB2B462DF767A300D5E1F8 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +141,7 @@
 			packageProductDependencies = (
 				BBC3992A2DD151670005BDD5 /* PhoneNumberKit-Static */,
 				BB9924652DEACA8C002B7BCF /* PhoneNumberKit-Static */,
+				BBAB2B4B2DF7685400D5E1F8 /* FirebaseAnalyticsWithoutAdIdSupport */,
 			);
 			productName = contactformatter;
 			productReference = BBE983422DB7FA43004685CF /* contactformatter.app */;
@@ -219,6 +227,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				BB9924642DEACA8C002B7BCF /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
+				BBAB2B4A2DF7685400D5E1F8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BBE983432DB7FA43004685CF /* Products */;
@@ -237,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBAB2B472DF767A300D5E1F8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBAB2B482DF767A300D5E1F8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBAB2B492DF767A300D5E1F8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +619,14 @@
 				minimumVersion = 4.0.2;
 			};
 		};
+		BBAB2B4A2DF7685400D5E1F8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -614,6 +634,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BB9924642DEACA8C002B7BCF /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
 			productName = "PhoneNumberKit-Static";
+		};
+		BBAB2B4B2DF7685400D5E1F8 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBAB2B4A2DF7685400D5E1F8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
 		BBC3992A2DD151670005BDD5 /* PhoneNumberKit-Static */ = {
 			isa = XCSwiftPackageProductDependency;
