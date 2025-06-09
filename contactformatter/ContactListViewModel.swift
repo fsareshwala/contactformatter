@@ -1,4 +1,5 @@
 import Contacts
+import FirebaseAnalytics
 import PhoneNumberKit
 
 class ContactListViewModel: ObservableObject {
@@ -56,6 +57,7 @@ class ContactListViewModel: ObservableObject {
       }
     }
 
+    logFormatType()
     getContacts()
   }
 
@@ -124,5 +126,22 @@ class ContactListViewModel: ObservableObject {
         print("Error on contact fetching \(error)")
       }
     }
+  }
+
+  private func logFormatType() {
+    var formatType: String = ""
+    switch selectedFormatType {
+      case .e164:
+        formatType = "E164"
+      case .international:
+        formatType = "International"
+      case .national:
+        formatType = "National"
+    }
+    Analytics.logEvent(AnalyticsEventSelectItem, parameters: [
+      AnalyticsParameterItemID: "format-type",
+      AnalyticsParameterItemName: "Format Type",
+      AnalyticsParameterContentType: formatType,
+    ])
   }
 }
