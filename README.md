@@ -20,10 +20,13 @@ The app currently supports the following phone number formats:
 
 ![Simulator Screenshot - iPhone 16 Pro Max - 2025-05-10 at 12 48 08](https://github.com/user-attachments/assets/71226576-784d-422f-98d7-dc917f429208)
 
+## See Also
+
+This app is written for iOS. If you're looking for a similar app, but on the Android platform, see
+[Twitch 2](https://play.google.com/store/apps/details?id=twitch.angelandroidapps.cnf2&hl=en_US).
 
 ## Contributing
 
 Contributions are welcome! If you'd like to contribute to this project, please ensure your code
 follows the existing style and includes appropriate tests. For major changes, please open an issue
 first to discuss what you would like to change.
-
