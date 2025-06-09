@@ -12,11 +12,8 @@ struct InvalidContactsInfoView: View {
       VStack {
         Text(
           """
-          Clean Dial uses a variety of methods to parse phone numbers from various different \
-          countries. However, sometimes it's unable to. Invalid contacts are those which have \
-          phone numbers that Clean Dial cannot parse and will not format.
-          
-          Please update your contacts with valid phone numbers and try again.
+          Invalid contacts are those which have phone numbers that Clean Dial cannot parse and \
+          will not format. Please update your contacts with valid phone numbers and try again.
           """
         )
         .padding()
