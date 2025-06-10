@@ -5,7 +5,7 @@ struct MessageView: View {
 
   var body: some View {
     VStack {
-      LogoView()
+      LogoHeaderView()
       Text(message)
         .padding()
         .multilineTextAlignment(.center)

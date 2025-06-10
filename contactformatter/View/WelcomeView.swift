@@ -35,7 +35,7 @@ struct WelcomeView: View {
     VStack {
       Spacer()
 
-      LogoView()
+      LogoHeaderView()
       VStack(alignment: .leading, spacing: 25) {
         FeatureView(
           imageName: "person.text.rectangle",
@@ -59,14 +59,12 @@ struct WelcomeView: View {
 
       Spacer()
       Text("Please tap the button below to grant Clean Dial access to your contacts")
-      .font(.callout)
-      .padding()
-      .multilineTextAlignment(.center)
-      .frame(maxWidth: .infinity, alignment: .center)
+        .font(.callout)
+        .padding()
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity, alignment: .center)
 
-      Button(action: {
-        requestContactsAuthorization()
-      }) {
+      Button(action: { requestAuthorization() }) {
         Text("Grant Access")
           .font(.headline)
       }
@@ -76,7 +74,7 @@ struct WelcomeView: View {
     }
   }
 
-  private func requestContactsAuthorization() {
+  private func requestAuthorization() {
     CNContactStore().requestAccess(for: .contacts) { granted, error in
       authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
     }

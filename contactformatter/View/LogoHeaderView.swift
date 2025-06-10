@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LogoView: View {
+struct LogoHeaderView: View {
   var body: some View {
     VStack {
       Image(systemName: "person.crop.circle.badge.checkmark")

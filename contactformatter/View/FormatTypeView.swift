@@ -19,9 +19,7 @@ struct FormatTypeList: View {
   var body: some View {
     ForEach(formatTypes) { item in
       HStack {
-        Button(action: {
-          selectedFormatType = item.formatType
-        }) {
+        Button(action: { selectedFormatType = item.formatType }) {
           let selected = (selectedFormatType == item.formatType)
           Image(systemName: selected ? "checkmark.circle.fill" : "circle")
             .foregroundColor(selected ? .blue : .gray)
