@@ -65,8 +65,9 @@ struct WelcomeView: View {
         .frame(maxWidth: .infinity, alignment: .center)
 
       Button(action: { requestAuthorization() }) {
-        Text("Grant Access")
+        Text("Continue")
           .font(.headline)
+          .frame(maxWidth: .infinity)
       }
       .buttonStyle(.borderedProminent)
       .controlSize(.large)
