@@ -19,7 +19,6 @@ struct ContactListView: View {
           if !viewModel.anyContactNeedsFormatting() {
             Text("All contact phone numbers are formatted correctly")
               .padding()
-              .font(.callout)
               .multilineTextAlignment(.center)
               .frame(maxWidth: .infinity, alignment: .center)
           }
@@ -51,7 +50,6 @@ struct ContactListView: View {
               HStack {
                 let c = contact.wrappedValue
                 Text(c.name)
-                  .font(.callout)
                 Spacer()
                 Text(c.devicePhoneNumber.value.stringValue)
                   .font(.footnote)
@@ -76,9 +74,7 @@ struct ContactListView: View {
       .sheet(
         isPresented: $invalidContactsSheetPresented,
         onDismiss: { invalidContactsSheetPresented = false }
-      ) {
-        InvalidContactsInfoView(isPresented: $invalidContactsSheetPresented)
-      }
+      ) { InvalidContactsInfoView(isPresented: $invalidContactsSheetPresented) }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: { viewModel.saveContacts() }) {

@@ -11,9 +11,7 @@ struct ActionView: View {
       MessageView(message: message)
       Spacer()
 
-      Button(action: {
-        action()
-      }) {
+      Button(action: { action() }) {
         Text(button)
           .font(.headline)
       }

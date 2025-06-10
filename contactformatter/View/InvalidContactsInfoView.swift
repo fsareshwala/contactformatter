@@ -23,9 +23,7 @@ struct InvalidContactsInfoView: View {
 
       Spacer()
 
-      Button(action: {
-        isPresented = false
-      }) {
+      Button(action: { isPresented = false }) {
         Text("Dismiss")
           .font(.headline)
       }
