@@ -13,7 +13,7 @@ class ContactListViewModel: ObservableObject {
     getContacts()
   }
 
-  public func anyContactNeedsFormatting() -> Bool {
+  func anyContactNeedsFormatting() -> Bool {
     for c in validContacts {
       if c.needsFormatting(toFormat: selectedFormatType) {
         return true
@@ -23,7 +23,7 @@ class ContactListViewModel: ObservableObject {
     return false
   }
 
-  public func saveContacts() {
+  func saveContacts() {
     if !anyContactNeedsFormatting() {
       return
     }
@@ -61,7 +61,7 @@ class ContactListViewModel: ObservableObject {
     getContacts()
   }
 
-  public func getContacts() {
+  func getContacts() {
     let status = CNContactStore.authorizationStatus(for: .contacts)
     switch status {
     case .authorized, .limited:
