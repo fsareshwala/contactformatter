@@ -28,7 +28,7 @@ struct FeatureView: View {
   }
 }
 
-struct WelcomeView: View {
+struct LandingView: View {
   @Binding var authorizationStatus: CNAuthorizationStatus
 
   var body: some View {
@@ -83,5 +83,5 @@ struct WelcomeView: View {
 }
 
 #Preview {
-  WelcomeView(authorizationStatus: .constant(.notDetermined))
+  LandingView(authorizationStatus: .constant(.notDetermined))
 }

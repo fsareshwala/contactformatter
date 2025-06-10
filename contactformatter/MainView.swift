@@ -46,7 +46,7 @@ struct MainView: View {
     case .authorized, .limited:
       ContactListView()
     case .notDetermined:
-      WelcomeView(authorizationStatus: $authorizationStatus)
+      LandingView(authorizationStatus: $authorizationStatus)
     case .restricted:
       RestrictedView()
     case .denied:
