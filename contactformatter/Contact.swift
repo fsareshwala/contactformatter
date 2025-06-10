@@ -39,11 +39,11 @@ class Contact: Identifiable {
     }
   }
 
-  public func hasValidPhoneNumber() -> Bool {
+  func hasValidPhoneNumber() -> Bool {
     return parsedPhoneNumber != PhoneNumber.notPhoneNumber()
   }
 
-  public func needsFormatting(toFormat: PhoneNumberFormat) -> Bool {
+  func needsFormatting(toFormat: PhoneNumberFormat) -> Bool {
     if !hasValidPhoneNumber() {
       return false
     }
@@ -56,7 +56,7 @@ class Contact: Identifiable {
     return true
   }
 
-  public func formatPhoneNumber(_ toFormat: PhoneNumberFormat) -> String {
+  func formatPhoneNumber(_ toFormat: PhoneNumberFormat) -> String {
     return phoneNumberUtility.format(parsedPhoneNumber, toType: toFormat)    
   }
 }
