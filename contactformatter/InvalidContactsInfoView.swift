@@ -20,8 +20,10 @@ struct InvalidContactsInfoView: View {
         Spacer()
       }
       .toolbar {
-        ToolbarItem(placement: .confirmationAction) {
+        ToolbarItem(placement: .bottomBar) {
           Button("Dismiss") { dismiss() }
+            .font(.title3)
+            .bold()
         }
       }
     }
