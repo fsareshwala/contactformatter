@@ -12,9 +12,7 @@ struct DeniedView: View {
     ActionView(
       message: deniedMessage,
       button: "Open Settings",
-      action: {
-        openSettings()
-      }
+      action: { openSettings() }
     )
   }
 
