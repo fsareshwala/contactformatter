@@ -1,15 +1,13 @@
 import SwiftUI
 
 struct InvalidContactsInfoView: View {
-  @Binding var isPresented: Bool
+  @Environment(\.dismiss) var dismiss
 
   var body: some View {
-    VStack {
-      Spacer()
-
-      WarningHeaderView()
-
+    NavigationStack {
       VStack {
+        Spacer()
+        WarningHeaderView()
         Text(
           """
           Invalid contacts are those which have phone numbers that Clean Dial cannot parse and \
@@ -17,22 +15,19 @@ struct InvalidContactsInfoView: View {
           """
         )
         .padding()
+        .font(.callout)
+        .multilineTextAlignment(.center)
+        Spacer()
       }
-      .font(.callout)
-      .multilineTextAlignment(.center)
-
-      Spacer()
-
-      Button(action: { isPresented = false }) {
-        Text("Dismiss")
-          .font(.headline)
+      .toolbar {
+        ToolbarItem(placement: .confirmationAction) {
+          Button("Dismiss") { dismiss() }
+        }
       }
-      .buttonStyle(.borderless)
-      .padding()
     }
   }
 }
 
 #Preview {
-  InvalidContactsInfoView(isPresented: .constant(true))
+  InvalidContactsInfoView()
 }
