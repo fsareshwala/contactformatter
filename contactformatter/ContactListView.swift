@@ -17,10 +17,11 @@ struct ContactListView: View {
 
         Section(header: Text("Contacts").textCase(.none)) {
           if !viewModel.anyContactNeedsFormatting() {
-            Text("All contact phone numbers are formatted correctly")
-              .padding()
-              .multilineTextAlignment(.center)
-              .frame(maxWidth: .infinity, alignment: .center)
+            ContentUnavailableView {
+              Label("No Contacts", systemImage: "person.crop.circle.badge.checkmark")
+            } description: {
+              Text("All contact phone numbers are formatted correctly")
+            }
           }
 
           ForEach($viewModel.validContacts) { contact in
@@ -39,13 +40,15 @@ struct ContactListView: View {
         }
 
         if !$viewModel.invalidContacts.isEmpty {
-          Section(header: HStack{
-            Text(("Invalid Contacts")).textCase(.none)
-            Button(action: { invalidContactsSheetPresented = true }) {
-              Image(systemName: "info.circle")
-                .foregroundColor(.blue)
+          Section(
+            header: HStack {
+              Text(("Invalid Contacts")).textCase(.none)
+              Button(action: { invalidContactsSheetPresented = true }) {
+                Image(systemName: "info.circle")
+                  .foregroundColor(.blue)
+              }
             }
-          }) {
+          ) {
             ForEach($viewModel.invalidContacts) { contact in
               HStack {
                 let c = contact.wrappedValue
@@ -61,8 +64,8 @@ struct ContactListView: View {
       .navigationTitle("Clean Dial")
       .navigationBarTitleDisplayMode(.inline)
       .refreshable { viewModel.getContacts() }
-      .onChange(of: scenePhase) { newPhase in
-        switch newPhase {
+      .onChange(of: scenePhase) {
+        switch scenePhase {
         case .active:
           viewModel.getContacts()
         case .inactive, .background:
