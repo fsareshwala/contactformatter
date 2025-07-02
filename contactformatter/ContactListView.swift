@@ -71,10 +71,9 @@ struct ContactListView: View {
           break
         }
       }
-      .sheet(
-        isPresented: $invalidContactsSheetPresented,
-        onDismiss: { invalidContactsSheetPresented = false }
-      ) { InvalidContactsInfoView(isPresented: $invalidContactsSheetPresented) }
+      .sheet(isPresented: $invalidContactsSheetPresented) {
+        InvalidContactsInfoView()
+      }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: { viewModel.saveContacts() }) {
