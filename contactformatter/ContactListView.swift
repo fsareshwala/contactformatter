@@ -76,6 +76,7 @@ struct ContactListView: View {
       }
       .sheet(isPresented: $invalidContactsSheetPresented) {
         InvalidContactsInfoView()
+          .presentationDetents([.medium])
       }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
