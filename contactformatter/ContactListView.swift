@@ -9,7 +9,7 @@ struct ContactListView: View {
   @Environment(\.scenePhase) var scenePhase
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       List {
         Section(header: Text("Format Type").textCase(.none)) {
           FormatTypeList(selectedFormatType: $viewModel.selectedFormatType)
