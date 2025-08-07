@@ -5,8 +5,15 @@ import SwiftUI
 struct ContactListView: View {
   @StateObject var viewModel: ContactListViewModel = ContactListViewModel()
   @State var invalidContactsSheetPresented: Bool = false
+  @State var isFormattingInProgress: Bool = false
 
   @Environment(\.scenePhase) var scenePhase
+
+  fileprivate func doFormat() {
+    isFormattingInProgress = true
+    viewModel.saveContacts()
+    isFormattingInProgress = false
+  }
 
   var body: some View {
     NavigationStack {
@@ -78,10 +85,16 @@ struct ContactListView: View {
         InvalidContactsInfoView()
           .presentationDetents([.medium])
       }
+      .overlay {
+        if isFormattingInProgress {
+          ProgressView(label: { Text("Formatting...") })
+        }
+      }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: { viewModel.saveContacts() }) {
-            Text("Format").disabled(!viewModel.anyContactNeedsFormatting())
+          Button(action: { doFormat() }) {
+            Text("Format")
+              .disabled(!viewModel.anyContactNeedsFormatting())
           }
         }
       }
