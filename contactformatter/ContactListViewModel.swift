@@ -88,43 +88,56 @@ class ContactListViewModel: ObservableObject {
   }
 
   private func fetchContacts() async {
-    let store = CNContactStore()
-    let keys: [CNKeyDescriptor] =
-      [
-        CNContactTypeKey,
-        CNContactNamePrefixKey,
-        CNContactGivenNameKey,
-        CNContactMiddleNameKey,
-        CNContactFamilyNameKey,
-        CNContactNameSuffixKey,
-        CNContactOrganizationNameKey,
-        CNContactPhoneNumbersKey,
-      ] as [CNKeyDescriptor]
+    self.validContacts = []
+    self.invalidContacts = []
 
-    let request = CNContactFetchRequest(keysToFetch: keys)
-    do {
-      var validContacts: [Contact] = []
-      var invalidContacts: [Contact] = []
+    let contactStream = createContactStream()
+    var contactBatch: [Contact] = []
+    let batchSize = 50
 
-      try await Task.detached {
-        try store.enumerateContacts(with: request) {
-          contact,
-          stop in
-          for phoneNumber in contact.phoneNumbers {
-            let contact = Contact(deviceContact: contact, devicePhoneNumber: phoneNumber)
-            if contact.hasValidPhoneNumber {
-              validContacts.append(contact)
-            } else {
-              invalidContacts.append(contact)
+    for await contact in contactStream {
+      contactBatch.append(contact)
+      if contactBatch.count >= batchSize {
+        self.validContacts.append(contentsOf: contactBatch.filter { $0.hasValidPhoneNumber })
+        self.invalidContacts.append(contentsOf: contactBatch.filter { !$0.hasValidPhoneNumber })
+        contactBatch.removeAll()
+      }
+    }
+
+    if !contactBatch.isEmpty {
+      self.validContacts.append(contentsOf: contactBatch.filter { $0.hasValidPhoneNumber })
+      self.invalidContacts.append(contentsOf: contactBatch.filter { !$0.hasValidPhoneNumber })
+    }
+
+    self.validContacts.sort { $0.name < $1.name }
+    self.invalidContacts.sort { $0.name < $1.name }
+  }
+
+  private func createContactStream() -> AsyncStream<Contact> {
+    AsyncStream { continuation in
+      Task.detached(priority: .userInitiated) {
+        let store = CNContactStore()
+        let keys: [CNKeyDescriptor] =
+          [
+            CNContactTypeKey, CNContactNamePrefixKey, CNContactGivenNameKey,
+            CNContactMiddleNameKey, CNContactFamilyNameKey, CNContactNameSuffixKey,
+            CNContactOrganizationNameKey, CNContactPhoneNumbersKey,
+          ] as [CNKeyDescriptor]
+        let request = CNContactFetchRequest(keysToFetch: keys)
+
+        do {
+          try store.enumerateContacts(with: request) { contact, stop in
+            for phoneNumber in contact.phoneNumbers {
+              let newContact = Contact(deviceContact: contact, devicePhoneNumber: phoneNumber)
+              continuation.yield(newContact)
             }
           }
+          continuation.finish()
+        } catch {
+          print("Error enumerating contacts: \(error)")
+          continuation.finish()
         }
-      }.value
-
-      self.validContacts = validContacts.sorted(by: { $0.name < $1.name })
-      self.invalidContacts = invalidContacts.sorted(by: { $0.name < $1.name })
-    } catch {
-      print("Error on contact fetching \(error)")
+      }
     }
   }
 
@@ -144,6 +157,7 @@ class ContactListViewModel: ObservableObject {
         AnalyticsParameterItemID: "format-type",
         AnalyticsParameterItemName: "Format Type",
         AnalyticsParameterContentType: formatType,
-      ])
+      ]
+    )
   }
 }
