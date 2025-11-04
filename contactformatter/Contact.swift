@@ -39,12 +39,12 @@ class Contact: Identifiable {
     }
   }
 
-  func hasValidPhoneNumber() -> Bool {
+  var hasValidPhoneNumber: Bool {
     return parsedPhoneNumber != PhoneNumber.notPhoneNumber()
   }
 
   func needsFormatting(toFormat: PhoneNumberFormat) -> Bool {
-    if !hasValidPhoneNumber() {
+    if !hasValidPhoneNumber {
       return false
     }
 

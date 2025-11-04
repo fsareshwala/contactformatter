@@ -11,8 +11,10 @@ struct ContactListView: View {
 
   fileprivate func doFormat() {
     isFormattingInProgress = true
-    viewModel.saveContacts()
-    isFormattingInProgress = false
+    Task {
+      await viewModel.saveContacts()
+      isFormattingInProgress = false
+    }
   }
 
   var body: some View {
@@ -35,13 +37,11 @@ struct ContactListView: View {
             let c = contact.wrappedValue
             if c.needsFormatting(toFormat: viewModel.selectedFormatType) {
               let formatted = c.formatPhoneNumber(viewModel.selectedFormatType)
-              if c.phoneNumber != formatted {
-                ContactView(
-                  isChecked: contact.isChecked,
-                  name: c.name,
-                  phoneNumber: formatted
-                )
-              }
+              ContactView(
+                isChecked: contact.isChecked,
+                name: c.name,
+                phoneNumber: formatted
+              )
             }
           }
         }
@@ -70,15 +70,12 @@ struct ContactListView: View {
       }
       .navigationTitle("Clean Dial")
       .navigationBarTitleDisplayMode(.inline)
-      .refreshable { viewModel.getContacts() }
+      .refreshable { await viewModel.getContacts() }
       .onChange(of: scenePhase) {
-        switch scenePhase {
-        case .active:
-          viewModel.getContacts()
-        case .inactive, .background:
-          break
-        @unknown default:
-          break
+        if scenePhase == .active {
+          Task {
+            await viewModel.getContacts()
+          }
         }
       }
       .sheet(isPresented: $invalidContactsSheetPresented) {

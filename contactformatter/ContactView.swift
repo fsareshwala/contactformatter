@@ -17,7 +17,5 @@ struct ContactView: View {
       Spacer()
       Text(phoneNumber).font(.footnote)
     }
-    .onAppear { isChecked = true }
-    .onDisappear { isChecked = false }
   }
 }

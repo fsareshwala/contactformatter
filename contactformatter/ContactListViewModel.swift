@@ -1,7 +1,9 @@
 import Contacts
 import FirebaseAnalytics
 import PhoneNumberKit
+import SwiftUI
 
+@MainActor
 class ContactListViewModel: ObservableObject {
   @Published var validContacts: [Contact] = []
   @Published var invalidContacts: [Contact] = []
@@ -10,82 +12,82 @@ class ContactListViewModel: ObservableObject {
   private let phoneNumberUtility = PhoneNumberUtility()
 
   init() {
-    getContacts()
+    Task {
+      await getContacts()
+    }
   }
 
   func anyContactNeedsFormatting() -> Bool {
-    for c in validContacts {
-      if c.needsFormatting(toFormat: selectedFormatType) {
-        return true
-      }
-    }
-
-    return false
+    return validContacts.contains { $0.needsFormatting(toFormat: selectedFormatType) }
   }
 
-  func saveContacts() {
-    if !anyContactNeedsFormatting() {
-      return
+  func saveContacts() async {
+    guard anyContactNeedsFormatting() else { return }
+
+    let contactsToFormat = validContacts.filter {
+      $0.isChecked && $0.needsFormatting(toFormat: selectedFormatType)
     }
 
-    for c in validContacts {
-      if !c.isChecked {
-        continue
+    guard !contactsToFormat.isEmpty else { return }
+
+    await Task.detached {
+      for c in contactsToFormat {
+        guard let index = c.deviceContact.phoneNumbers.firstIndex(of: c.devicePhoneNumber) else {
+          continue
+        }
+
+        guard let contact = c.deviceContact.mutableCopy() as? CNMutableContact else {
+          continue
+        }
+
+        let formatted = await c.formatPhoneNumber(self.selectedFormatType)
+        contact.phoneNumbers[index] = CNLabeledValue(
+          label: c.devicePhoneNumber.label,
+          value: CNPhoneNumber(stringValue: formatted)
+        )
+
+        let saveRequest = CNSaveRequest()
+        saveRequest.update(contact)
+
+        do {
+          try CNContactStore().execute(saveRequest)
+        } catch {
+          print("Error saving contact \(c.name): \(error)")
+        }
       }
-
-      guard let index = c.deviceContact.phoneNumbers.firstIndex(of: c.devicePhoneNumber) else {
-        continue
-      }
-
-      guard let contact = c.deviceContact.mutableCopy() as? CNMutableContact else {
-        continue
-      }
-
-      let formatted = c.formatPhoneNumber(selectedFormatType)
-      contact.phoneNumbers[index] = CNLabeledValue(
-        label: c.devicePhoneNumber.label,
-        value: CNPhoneNumber(stringValue: formatted)
-      )
-
-      let saveRequest = CNSaveRequest()
-      saveRequest.update(contact)
-
-      do {
-        try CNContactStore().execute(saveRequest)
-      } catch {
-        print("Error saving contact: \(error)")
-      }
-    }
+    }.value
 
     logFormatType()
-    getContacts()
+    await getContacts()
   }
 
-  func getContacts() {
+  func getContacts() async {
     let status = CNContactStore.authorizationStatus(for: .contacts)
     switch status {
     case .authorized, .limited:
-      fetchContacts()
+      await fetchContacts()
     case .notDetermined:
-      requestAuthorization()
-    case .restricted, .denied:
-      fallthrough
-    @unknown default:
-      print("foo")
-    }
-  }
-
-  private func requestAuthorization() {
-    let store = CNContactStore()
-
-    store.requestAccess(for: .contacts) { granted, error in
-      if granted {
-        self.fetchContacts()
+      if await requestAuthorization() {
+        await fetchContacts()
       }
+    case .restricted, .denied:
+      break
+    @unknown default:
+      break
     }
   }
 
-  private func fetchContacts() {
+  private func requestAuthorization() async -> Bool {
+    let store = CNContactStore()
+    do {
+      return try await store.requestAccess(for: .contacts)
+    } catch {
+      print("Error requesting contact access: \(error)")
+      return false
+    }
+  }
+
+  private func fetchContacts() async {
     let store = CNContactStore()
     let keys: [CNKeyDescriptor] =
       [
@@ -100,48 +102,48 @@ class ContactListViewModel: ObservableObject {
       ] as [CNKeyDescriptor]
 
     let request = CNContactFetchRequest(keysToFetch: keys)
-    DispatchQueue.global().async {
-      do {
-        var validContacts: [Contact] = []
-        var invalidContacts: [Contact] = []
+    do {
+      var validContacts: [Contact] = []
+      var invalidContacts: [Contact] = []
 
+      try await Task.detached {
         try store.enumerateContacts(with: request) {
           contact,
           stop in
           for phoneNumber in contact.phoneNumbers {
             let contact = Contact(deviceContact: contact, devicePhoneNumber: phoneNumber)
-            if contact.hasValidPhoneNumber() {
+            if contact.hasValidPhoneNumber {
               validContacts.append(contact)
             } else {
               invalidContacts.append(contact)
             }
           }
         }
+      }.value
 
-        DispatchQueue.main.async {
-          self.validContacts = validContacts.sorted(by: { $0.name < $1.name })
-          self.invalidContacts = invalidContacts.sorted(by: { $0.name < $1.name })
-        }
-      } catch {
-        print("Error on contact fetching \(error)")
-      }
+      self.validContacts = validContacts.sorted(by: { $0.name < $1.name })
+      self.invalidContacts = invalidContacts.sorted(by: { $0.name < $1.name })
+    } catch {
+      print("Error on contact fetching \(error)")
     }
   }
 
   private func logFormatType() {
-    var formatType: String = ""
+    let formatType: String
     switch selectedFormatType {
-      case .e164:
-        formatType = "E164"
-      case .international:
-        formatType = "International"
-      case .national:
-        formatType = "National"
+    case .e164:
+      formatType = "E164"
+    case .international:
+      formatType = "International"
+    case .national:
+      formatType = "National"
     }
-    Analytics.logEvent(AnalyticsEventSelectItem, parameters: [
-      AnalyticsParameterItemID: "format-type",
-      AnalyticsParameterItemName: "Format Type",
-      AnalyticsParameterContentType: formatType,
-    ])
+    Analytics.logEvent(
+      AnalyticsEventSelectItem,
+      parameters: [
+        AnalyticsParameterItemID: "format-type",
+        AnalyticsParameterItemName: "Format Type",
+        AnalyticsParameterContentType: formatType,
+      ])
   }
 }
