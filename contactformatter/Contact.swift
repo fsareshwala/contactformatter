@@ -57,6 +57,6 @@ class Contact: Identifiable {
   }
 
   func formatPhoneNumber(_ toFormat: PhoneNumberFormat) -> String {
-    return phoneNumberUtility.format(parsedPhoneNumber, toType: toFormat)    
+    return phoneNumberUtility.format(parsedPhoneNumber, toType: toFormat)
   }
 }

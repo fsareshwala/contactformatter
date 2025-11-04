@@ -82,9 +82,18 @@ struct ContactListView: View {
         InvalidContactsInfoView()
           .presentationDetents([.medium])
       }
+      .disabled(isFormattingInProgress)
       .overlay {
         if isFormattingInProgress {
-          ProgressView(label: { Text("Formatting...") })
+          VStack {
+            ProgressView()
+              .controlSize(.large)
+            Text("Formatting...")
+              .padding(.top)
+          }
+          .padding(30)
+          .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 16))
+          .shadow(radius: 10)
         }
       }
       .toolbar {
