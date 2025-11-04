@@ -20,11 +20,11 @@ struct ContactListView: View {
   var body: some View {
     NavigationStack {
       List {
-        Section(header: Text("Format Type").textCase(.none)) {
+        Section(header: Text("Format Type")) {
           FormatTypeList(selectedFormatType: $viewModel.selectedFormatType)
         }
 
-        Section(header: Text("Contacts").textCase(.none)) {
+        Section(header: Text("Contacts")) {
           if !viewModel.anyContactNeedsFormatting() {
             ContentUnavailableView {
               Label("No Contacts", systemImage: "person.crop.circle.badge.checkmark")
@@ -49,7 +49,7 @@ struct ContactListView: View {
         if !$viewModel.invalidContacts.isEmpty {
           Section(
             header: HStack {
-              Text(("Invalid Contacts")).textCase(.none)
+              Text(("Invalid Contacts"))
               Button(action: { invalidContactsSheetPresented = true }) {
                 Image(systemName: "info.circle")
                   .foregroundColor(.blue)
