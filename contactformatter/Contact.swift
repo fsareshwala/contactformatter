@@ -16,6 +16,11 @@ class Contact: Identifiable {
     return formatter.string(from: deviceContact as CNContact) ?? "unknown name"
   }
 
+  var phoneNumberLabel: String {
+    guard let label = devicePhoneNumber.label else { return "" }
+    return CNLabeledValue<CNPhoneNumber>.localizedString(forLabel: label)
+  }
+
   var phoneNumber: String {
     return devicePhoneNumber.value.stringValue
   }

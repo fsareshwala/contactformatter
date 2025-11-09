@@ -40,7 +40,9 @@ struct ContactListView: View {
               ContactView(
                 isChecked: contact.isChecked,
                 name: c.name,
-                phoneNumber: formatted
+                phoneNumber: formatted,
+                originalPhoneNumber: c.phoneNumber,
+                phoneNumberLabel: c.phoneNumberLabel
               )
             }
           }
