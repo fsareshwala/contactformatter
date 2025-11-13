@@ -117,12 +117,12 @@ class ContactListViewModel: ObservableObject {
     AsyncStream { continuation in
       Task.detached(priority: .userInitiated) {
         let store = CNContactStore()
-        let keys: [CNKeyDescriptor] =
+        let keys: [any CNKeyDescriptor] =
           [
-            CNContactTypeKey, CNContactNamePrefixKey, CNContactGivenNameKey,
-            CNContactMiddleNameKey, CNContactFamilyNameKey, CNContactNameSuffixKey,
-            CNContactOrganizationNameKey, CNContactPhoneNumbersKey,
-          ] as [CNKeyDescriptor]
+            CNContactTypeKey as any CNKeyDescriptor,
+            CNContactPhoneNumbersKey as any CNKeyDescriptor,
+            CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+          ]
         let request = CNContactFetchRequest(keysToFetch: keys)
 
         do {

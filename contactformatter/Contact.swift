@@ -3,7 +3,6 @@ import PhoneNumberKit
 
 class Contact: Identifiable {
   let id = UUID()
-  private let formatter = CNContactFormatter()
   private let phoneNumberUtility = PhoneNumberUtility()
 
   let deviceContact: CNContact
@@ -13,7 +12,7 @@ class Contact: Identifiable {
   var isChecked: Bool = true
 
   var name: String {
-    return formatter.string(from: deviceContact as CNContact) ?? "unknown name"
+    return CNContactFormatter.string(from: deviceContact, style: .fullName) ?? "Unknown name"
   }
 
   var phoneNumberLabel: String {
