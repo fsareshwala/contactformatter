@@ -1,4 +1,4 @@
-# Phone Number Formatter (iOS)
+# Contact Phone Number Formatter (iOS)
 
 [![iOS](https://img.shields.io/badge/iOS-17.0+-blue.svg)](https://developer.apple.com/ios/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -13,6 +13,10 @@ The app currently supports the following phone number formats:
 * **E.164:** `+15555648583` (International standard format)
 * **International:** `+1 555-564-8583` (International format with spaces and hyphens for readability)
 * **National:** `(555) 564-8583` (National format with parentheses and a hyphen)
+
+## App store
+
+The app is available on the App Store as [Clean Dial](https://apps.apple.com/us/app/clean-dial/id6745625133).
 
 ## Screenshot
 
