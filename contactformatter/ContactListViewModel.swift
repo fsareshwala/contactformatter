@@ -10,6 +10,7 @@ class ContactListViewModel: ObservableObject {
   @Published var selectedFormatType: PhoneNumberFormat = .international
 
   private let phoneNumberUtility = PhoneNumberUtility()
+  private var isFetchingContacts = false
 
   init() {
     Task {
@@ -62,6 +63,10 @@ class ContactListViewModel: ObservableObject {
   }
 
   func getContacts() async {
+    guard !isFetchingContacts else { return }
+    isFetchingContacts = true
+    defer { isFetchingContacts = false }
+
     let status = CNContactStore.authorizationStatus(for: .contacts)
     switch status {
     case .authorized, .limited:
