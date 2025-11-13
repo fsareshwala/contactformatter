@@ -20,7 +20,7 @@ The app is available on the App Store as [Clean Dial](https://apps.apple.com/us/
 
 ## Screenshot
 
-![Simulator Screenshot - iPhone 16 Pro Max - 2025-05-10 at 12 48 08](https://github.com/user-attachments/assets/71226576-784d-422f-98d7-dc917f429208)
+![screenshot](https://github.com/user-attachments/assets/a9626f79-0856-4d1f-ac43-70982d08acb9)
 
 ## See Also
 
