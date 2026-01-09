@@ -113,9 +113,9 @@ struct ContactListView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button(action: { doFormat() }) {
-            Text("Format")
-              .disabled(!viewModel.anyContactNeedsFormatting())
+            Image(systemName: "person.crop.circle.badge.checkmark")
           }
+          .disabled(!viewModel.anyContactNeedsFormatting())
         }
       }
     }
