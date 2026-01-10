@@ -3,6 +3,7 @@ import SwiftUI
 
 enum Sheet: String, Identifiable {
   case invalidContactsInfo
+  case about
 
   var id: String { rawValue }
 
@@ -12,6 +13,8 @@ enum Sheet: String, Identifiable {
     case .invalidContactsInfo:
       InvalidContactsInfoView()
         .presentationDetents([.medium])
+    case .about:
+      AboutView()
     }
   }
 }

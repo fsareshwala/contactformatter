@@ -24,7 +24,7 @@ struct ContactListView: View {
           FormatTypeList(selectedFormatType: $viewModel.selectedFormatType)
         }
 
-        Section {
+        Section(header: Text("Contacts")) {
           if !viewModel.anyContactNeedsFormatting() {
             ContentUnavailableView {
               Label("No Contacts", systemImage: "person.crop.circle.badge.checkmark")
@@ -45,18 +45,6 @@ struct ContactListView: View {
                 phoneNumberLabel: c.phoneNumberLabel
               )
             }
-          }
-        } header: {
-          Text("Contacts")
-        } footer: {
-          HStack {
-            Spacer()
-            let version = Util.GetAppVersion()
-            Text("App Version: \(version)")
-              .font(.footnote)
-              .foregroundColor(.secondary)
-              .padding(.bottom)
-            Spacer()
           }
         }
 
@@ -108,6 +96,11 @@ struct ContactListView: View {
         }
       }
       .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Button(action: { activeSheet = .about }) {
+            Image(systemName: "info.circle")
+          }
+        }
         ToolbarItem(placement: .topBarTrailing) {
           Button(action: { doFormat() }) {
             Image(systemName: "person.crop.circle.badge.checkmark")
