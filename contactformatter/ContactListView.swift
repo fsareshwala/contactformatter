@@ -59,12 +59,20 @@ struct ContactListView: View {
             }
           ) {
             ForEach($viewModel.invalidContacts) { contact in
-              HStack {
-                let c = contact.wrappedValue
-                Text(c.name)
-                Spacer()
-                Text(c.devicePhoneNumber.value.stringValue)
-                  .font(.footnote)
+              let c = contact.wrappedValue
+              VStack(alignment: .leading) {
+                HStack {
+                  Text(c.name)
+                  Spacer()
+                  Text(c.devicePhoneNumber.value.stringValue)
+                    .font(.footnote)
+                }
+                HStack {
+                  Spacer()
+                  Text(c.phoneNumberLabel)
+                }
+                .font(.footnote)
+                .foregroundColor(.secondary)
               }
             }
           }
