@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ContactListView: View {
   @StateObject var viewModel: ContactListViewModel = ContactListViewModel()
-  @State var invalidContactsSheetPresented: Bool = false
+  @State var activeSheet: Sheet?
   @State var isFormattingInProgress: Bool = false
 
   @Environment(\.scenePhase) var scenePhase
@@ -64,7 +64,7 @@ struct ContactListView: View {
           Section(
             header: HStack {
               Text(("Invalid Contacts"))
-              Button(action: { invalidContactsSheetPresented = true }) {
+              Button(action: { activeSheet = .invalidContactsInfo }) {
                 Image(systemName: "info.circle")
                   .foregroundColor(.blue)
               }
@@ -92,10 +92,7 @@ struct ContactListView: View {
           }
         }
       }
-      .sheet(isPresented: $invalidContactsSheetPresented) {
-        InvalidContactsInfoView()
-          .presentationDetents([.medium])
-      }
+      .sheet(item: $activeSheet) { sheet in sheet.view }
       .disabled(isFormattingInProgress)
       .overlay {
         if isFormattingInProgress {
@@ -111,7 +108,7 @@ struct ContactListView: View {
         }
       }
       .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        ToolbarItem(placement: .topBarTrailing) {
           Button(action: { doFormat() }) {
             Image(systemName: "person.crop.circle.badge.checkmark")
           }
