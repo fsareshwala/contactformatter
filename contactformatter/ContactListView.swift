@@ -104,16 +104,20 @@ struct ContactListView: View {
         }
       }
       .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .topBarTrailing) {
           Button(action: { activeSheet = .about }) {
             Image(systemName: "info.circle")
           }
         }
-        ToolbarItem(placement: .topBarTrailing) {
-          Button(action: { doFormat() }) {
-            Image(systemName: "person.crop.circle.badge.checkmark")
+        ToolbarItem(placement: .bottomBar) { Spacer() }
+
+        if viewModel.anyContactNeedsFormatting() {
+          ToolbarItem(placement: .bottomBar) {
+            Button(action: { doFormat() }) {
+              Image(systemName: "person.crop.circle.badge.checkmark")
+            }
+            .foregroundStyle(.blue)
           }
-          .disabled(!viewModel.anyContactNeedsFormatting())
         }
       }
     }
