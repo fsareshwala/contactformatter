@@ -1,30 +1,43 @@
 import SwiftUI
 
 struct PrivacyPolicyView: View {
-    var body: some View {
-        ScrollView {
-            Text("""
-            This is a placeholder for the Privacy Policy.
+  var body: some View {
+    ScrollView {
+      Text(
+        """
+        **Effective Date:** June 11, 2025
 
-            Your privacy is important to us. It is Clean Dial's policy to respect your privacy regarding any information we may collect from you across our website, and other sites we own and operate.
+        Your privacy is our priority. This app is designed to format contact information locally on your device. Your presonal contact data is never collected, stored, or shared.
 
-            We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.
+        **1. Local Processing**
+        All contact formatting is performed entirely on your device. None of your contacts, phone numbers, or address book details are ever uploaded to a server, stored, or shared with third parties.
 
-            We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we’ll protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.
+        **2. Open Source**
+        To ensure total transparency, this app is open source. Users can review its source code to verify the privacy claims and see exactly how your data is handled. You can find the source code at: https://github.com/fsareshwala/contactformatter.
 
-            We don’t share any personally identifying information publicly or with third-parties, except when required to by law.
+        **3. Information Collected**
+        To help improve the app’s performance and stability, two types of anonymous data are collected:
 
-            Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies.
+          - Usage Analytics: Google Analytics to collect anonymous information about how the app is used (e.g., which buttons are clicked or which features are most popular). This does not include any personal information or contact data.
 
-            You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.
+          - Crash Reporting: If the app crashes, the app uploads a technical report containing details about the error and your device model on the next app launch. This helps identify and fix bugs to make the app more stable.
 
-            Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.
+        **4. Data Security**
+        Because your contact data never leaves your device, it remains under your total control. Industry-standard practices and methods ensure that the anonymous technical data the app uploads is handled securely.
 
-            This policy is effective as of 9 January 2026.
-            """)
-            .padding()
-        }
-        .navigationTitle("Privacy Policy")
-        .navigationBarTitleDisplayMode(.inline)
+        **5. Third-Party Services**
+        This app uses the following third-party services.
+
+          - Google Analytics
+          - Crashlytics/Firebase
+
+        **6. Changes to This Policy**
+        This policy may be updated from time to time. Any changes will be reflected by the "Effective Date" at the top of this page.
+        """
+      )
+      .padding()
     }
+    .navigationTitle("Privacy Policy")
+    .navigationBarTitleDisplayMode(.inline)
+  }
 }
