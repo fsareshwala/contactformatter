@@ -18,6 +18,41 @@ struct ContactListView: View {
     }
   }
 
+  var invalidContactsSection: some View {
+    Section(
+      header: HStack {
+        Text(("Invalid Contacts"))
+        Button(action: { activeSheet = .invalidContactsInfo }) {
+          Image(systemName: "info.circle")
+            .foregroundColor(.blue)
+        }
+      }
+    ) {
+      ForEach(viewModel.invalidContacts) { contact in
+        Button(action: {
+          selectedInvalidContact = contact
+        }) {
+          VStack(alignment: .leading) {
+            HStack {
+              Text(contact.name)
+                .foregroundColor(.primary)
+              Spacer()
+              Text(contact.devicePhoneNumber.value.stringValue)
+                .font(.footnote)
+                .foregroundColor(.primary)
+            }
+            HStack {
+              Spacer()
+              Text(contact.phoneNumberLabel)
+            }
+            .font(.footnote)
+            .foregroundColor(.secondary)
+          }
+        }
+      }
+    }
+  }
+
   var body: some View {
     NavigationStack {
       List {
@@ -49,39 +84,8 @@ struct ContactListView: View {
           }
         }
 
-        if !$viewModel.invalidContacts.isEmpty {
-          Section(
-            header: HStack {
-              Text(("Invalid Contacts"))
-              Button(action: { activeSheet = .invalidContactsInfo }) {
-                Image(systemName: "info.circle")
-                  .foregroundColor(.blue)
-              }
-            }
-          ) {
-            ForEach(viewModel.invalidContacts) { contact in
-              Button(action: {
-                selectedInvalidContact = contact
-              }) {
-                VStack(alignment: .leading) {
-                  HStack {
-                    Text(contact.name)
-                      .foregroundColor(.primary)
-                    Spacer()
-                    Text(contact.devicePhoneNumber.value.stringValue)
-                      .font(.footnote)
-                      .foregroundColor(.primary)
-                  }
-                  HStack {
-                    Spacer()
-                    Text(contact.phoneNumberLabel)
-                  }
-                  .font(.footnote)
-                  .foregroundColor(.secondary)
-                }
-              }
-            }
-          }
+        if !viewModel.invalidContacts.isEmpty {
+          invalidContactsSection
         }
       }
       .sheet(item: $selectedInvalidContact) { contact in
