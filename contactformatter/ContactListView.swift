@@ -6,6 +6,7 @@ struct ContactListView: View {
   @StateObject var viewModel: ContactListViewModel = ContactListViewModel()
   @State var activeSheet: Sheet?
   @State var isFormattingInProgress: Bool = false
+  @State private var selectedInvalidContact: Contact?
 
   @Environment(\.scenePhase) var scenePhase
 
@@ -58,25 +59,33 @@ struct ContactListView: View {
               }
             }
           ) {
-            ForEach($viewModel.invalidContacts) { contact in
-              let c = contact.wrappedValue
-              VStack(alignment: .leading) {
-                HStack {
-                  Text(c.name)
-                  Spacer()
-                  Text(c.devicePhoneNumber.value.stringValue)
-                    .font(.footnote)
+            ForEach(viewModel.invalidContacts) { contact in
+              Button(action: {
+                selectedInvalidContact = contact
+              }) {
+                VStack(alignment: .leading) {
+                  HStack {
+                    Text(contact.name)
+                      .foregroundColor(.primary)
+                    Spacer()
+                    Text(contact.devicePhoneNumber.value.stringValue)
+                      .font(.footnote)
+                      .foregroundColor(.primary)
+                  }
+                  HStack {
+                    Spacer()
+                    Text(contact.phoneNumberLabel)
+                  }
+                  .font(.footnote)
+                  .foregroundColor(.secondary)
                 }
-                HStack {
-                  Spacer()
-                  Text(c.phoneNumberLabel)
-                }
-                .font(.footnote)
-                .foregroundColor(.secondary)
               }
             }
           }
         }
+      }
+      .sheet(item: $selectedInvalidContact) { contact in
+        ContactDetailView(contact: contact.deviceContact)
       }
       .navigationTitle("Clean Dial")
       .navigationBarTitleDisplayMode(.inline)
