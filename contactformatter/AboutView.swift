@@ -10,7 +10,7 @@ struct AboutView: View {
     NavigationStack {
       ZStack {
         Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-        VStack (spacing: 20) {
+        VStack(spacing: 20) {
           Image("AppIconInApp")
             .resizable()
             .aspectRatio(contentMode: .fit)

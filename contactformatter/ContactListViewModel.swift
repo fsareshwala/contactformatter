@@ -124,7 +124,7 @@ class ContactListViewModel: ObservableObject {
       Task.detached(priority: .userInitiated) {
         let store = CNContactStore()
         let keys: [any CNKeyDescriptor] =
-        await [
+          await [
             CNContactTypeKey as any CNKeyDescriptor,
             CNContactPhoneNumbersKey as any CNKeyDescriptor,
             CNContactViewController.descriptorForRequiredKeys(),
