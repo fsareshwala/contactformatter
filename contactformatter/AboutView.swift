@@ -10,7 +10,7 @@ struct AboutView: View {
     NavigationStack {
       ZStack {
         Color(UIColor.systemGroupedBackground).ignoresSafeArea()
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
           Image("AppIconInApp")
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -54,6 +54,10 @@ struct AboutView: View {
                   }
                 }
               }
+            }
+
+            Section(header: Text("Other Apps from the Developer")) {
+              OtherAppsView()
             }
           }
         }
