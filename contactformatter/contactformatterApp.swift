@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import FirebaseCore
 import SwiftUI
 
@@ -7,6 +8,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
     FirebaseApp.configure()
+
+    #if DEBUG
+      Analytics.setAnalyticsCollectionEnabled(false)
+    #endif
     return true
   }
 }
