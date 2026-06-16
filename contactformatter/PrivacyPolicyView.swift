@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import SwiftUI
 
 struct PrivacyPolicyView: View {
@@ -39,5 +40,8 @@ struct PrivacyPolicyView: View {
     }
     .navigationTitle("Privacy Policy")
     .navigationBarTitleDisplayMode(.inline)
+    .onAppear {
+      Analytics.logEvent("view_privacy_policy", parameters: nil)
+    }
   }
 }

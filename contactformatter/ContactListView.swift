@@ -1,4 +1,5 @@
 import Contacts
+import FirebaseAnalytics
 import PhoneNumberKit
 import SwiftUI
 
@@ -11,6 +12,8 @@ struct ContactListView: View {
   @Environment(\.scenePhase) var scenePhase
 
   fileprivate func doFormat() {
+    Analytics.logEvent(
+      "format_contacts", parameters: ["format": viewModel.selectedFormatType.rawValue])
     isFormattingInProgress = true
     Task {
       await viewModel.saveContacts()
@@ -22,7 +25,10 @@ struct ContactListView: View {
     Section(
       header: HStack {
         Text(("Invalid Contacts"))
-        Button(action: { activeSheet = .invalidContactsInfo }) {
+        Button(action: {
+          activeSheet = .invalidContactsInfo
+          Analytics.logEvent("view_invalid_contacts_info", parameters: nil)
+        }) {
           Image(systemName: "info.circle")
             .foregroundColor(.blue)
         }
@@ -31,6 +37,7 @@ struct ContactListView: View {
       ForEach(viewModel.invalidContacts) { contact in
         Button(action: {
           selectedInvalidContact = contact
+          Analytics.logEvent("view_invalid_contact_detail", parameters: nil)
         }) {
           VStack(alignment: .leading) {
             HStack {
@@ -93,7 +100,10 @@ struct ContactListView: View {
       }
       .navigationTitle("Clean Dial")
       .navigationBarTitleDisplayMode(.inline)
-      .refreshable { await viewModel.getContacts() }
+      .refreshable {
+        Analytics.logEvent("refresh_contacts", parameters: nil)
+        await viewModel.getContacts()
+      }
       .onChange(of: scenePhase) {
         if scenePhase == .active {
           Task {
@@ -118,7 +128,10 @@ struct ContactListView: View {
       }
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
-          Button(action: { activeSheet = .about }) {
+          Button(action: {
+            activeSheet = .about
+            Analytics.logEvent("view_about", parameters: nil)
+          }) {
             Image(systemName: "info.circle")
           }
         }

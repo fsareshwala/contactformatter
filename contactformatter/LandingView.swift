@@ -1,4 +1,5 @@
 import Contacts
+import FirebaseAnalytics
 import SwiftUI
 
 struct FeatureView: View {
@@ -76,6 +77,7 @@ struct LandingView: View {
   }
 
   private func requestAuthorization() {
+    Analytics.logEvent("request_authorization", parameters: nil)
     CNContactStore().requestAccess(for: .contacts) { granted, error in
       authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
     }

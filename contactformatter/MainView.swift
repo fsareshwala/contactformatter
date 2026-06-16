@@ -1,4 +1,5 @@
 import Contacts
+import FirebaseAnalytics
 import PhoneNumberKit
 import SwiftUI
 
@@ -17,6 +18,7 @@ struct DeniedView: View {
   }
 
   func openSettings() {
+    Analytics.logEvent("open_settings", parameters: nil)
     if let url = URL(string: UIApplication.openSettingsURLString) {
       UIApplication.shared.open(url)
     }
